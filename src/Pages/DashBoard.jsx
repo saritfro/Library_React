@@ -1,18 +1,24 @@
-import React, { useState,useEffect } from "react";
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import BookFilters from '../Comp/Books/BookFilters';
-import BookForm from '../Comp/Books/BookForm';
-import BookList from '../Comp/Books/BookList';
-import { Plus, Search } from 'lucide-react';
-import axios from 'axios';
-import { FileUpload } from 'primereact/fileupload';
-import 'primereact/resources/themes/lara-light-blue/theme.css'; // או נושא אחר
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
+import React, { useState, useEffect, useRef } from "react";
+import * as XLSX from "xlsx";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import BookFilters from "../Comp/Books/BookFilters";
+import BookForm from "../Comp/Books/BookForm";
+import BookList from "../Comp/Books/BookList";
+import { Plus, Search } from "lucide-react";
+import axios from "axios";
+import { Toast } from "primereact/toast";
+import { FileUpload } from "primereact/fileupload";
+import { Card, CardContent } from "../components/ui/card";
+
+import "primereact/resources/themes/lara-light-blue/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 export default function Dashboard() {
-  const [books, setBooks] = useState([]); // מתחיל ריק
+  const toast = useRef(null);
+
+  const [books, setBooks] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingBook, setEditingBook] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,35 +28,41 @@ export default function Dashboard() {
     status: "הכל",
     searchTerm: ""
   });
+
   useEffect(() => {
-    // Make GET request to fetch data
     axios.get("http://localhost:8080/books/getAllBooks")
-        .then((response) => {
-            setBooks(response.data);
-            setLoading(false);
-        })
-        .catch((err) => {
-            setError(err.message);
-            setLoading(false);
-        });
-}, []);
-  
+      .then((response) => {
+        setBooks(response.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
   const handleSubmit = async (bookData) => {
     try {
       if (editingBook) {
-        const res = await axios.put(`http://localhost:8080/books/putBook/${editingBook.bookId}`, bookData);
-        // const updatedBooks = books.map(book => book.bookId === editingBook.bookId ? res.data : book);
-        const updatedBooks = books.map(book => book.bookId === editingBook.bookId ? res.data : book);
+        const res = await axios.put(
+          `http://localhost:8080/books/putBook/${editingBook.bookId}`,
+          bookData
+        );
+        const updatedBooks = books.map(book =>
+          book.bookId === editingBook.bookId ? res.data : book
+        );
         setBooks(updatedBooks);
       } else {
-        const res = await axios.put("http://localhost:8080/books/postBook",  { id: Date.now(), ...bookData });
+        const res = await axios.post("http://localhost:8080/books/postBook", {
+          publishingDate: Date.now(),
+          ...bookData
+        });
         setBooks([...books, res.data]);
       }
     } catch (error) {
       console.error("שגיאה בשמירה לשרת:", error);
     }
 
-   
     setShowForm(false);
     setEditingBook(null);
   };
@@ -60,36 +72,93 @@ export default function Dashboard() {
     setShowForm(true);
   };
 
-  const filteredBooks = books.filter(book => {
+  const handleDelete = (book) => {
+    axios
+      .delete(`http://localhost:8080/books/deleteBook/${book._id}`)
+      .then((response) => {
+        setBooks(response.data);
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+  };
+
+  const filteredBooks = books.filter((book) => {
     const categoryMatch = filters.category === "הכל" || book.category === filters.category;
     const statusMatch = filters.status === "הכל" || book.status === filters.status;
-   const searchMatch =
-  (book.bookName?.toLowerCase().includes(filters.searchTerm.toLowerCase()) || "") ||
-  (book.publisher?.toLowerCase().includes(filters.searchTerm.toLowerCase()) || "");
+    const searchMatch =
+      (book.bookName?.toLowerCase().includes(filters.searchTerm.toLowerCase()) || "") ||
+      (book.publisher?.toLowerCase().includes(filters.searchTerm.toLowerCase()) || "");
     return categoryMatch && statusMatch && searchMatch;
   });
 
-  return (
-    <div className="max-w-6xl mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">ניהול ספרים</h1>
-          <p className="text-gray-500 mt-1">ניהול מלאי הספרים בספרייה</p>
-        </div>
-  
-        
-      </div>
-      
+  const handleUpload = (event) => {
+    let fileList = event.files || event?.target?.files;
+    if (!fileList || fileList.length === 0) {
+      console.warn("No file selected");
+      return;
+    }
 
-        <div className="card"> \\לסדר מיקום 
-          <Button style={{marginTop:"20px"}} onClick={() => setShowForm(true)} className="bg-blue-600 hover:bg-blue-700">
-          <Plus className="w-5 h-5 ml-2" />
-          הוספת ספר חדש
-        </Button>
-        
-            <FileUpload name="demo[]" url={'/api/upload'} multiple accept="image/*" maxFileSize={1000000} emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>} />
-        </div>
-  
+    const file = fileList[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        const json = XLSX.utils.sheet_to_json(sheet);
+
+        toast.current.show({
+          severity: "success",
+          summary: "קובץ עלה בהצלחה",
+          detail: "הספרים הוספו לרשימה",
+          life: 3000
+        });
+
+        setBooks([...books, ...json]);
+
+        for (let d of json) {
+          axios
+            .post("http://localhost:8080/books/postBook", d)
+            .then((res) => console.log(res))
+            .catch((err) => console.error("Failed to post to server:", err));
+        }
+      } catch (e) {
+        console.log("Error reading file:", e);
+      }
+    };
+
+    reader.readAsArrayBuffer(file);
+  };
+
+  return (
+    <div className="max-w-6xl mx-auto p-4">
+
+      {/* כרטיס עם כפתור הוספה וייבוא */}
+      <Card className="w-full bg-[#89BEB] text-white rounded-xl shadow-md p-4 mb-6">
+        <CardContent className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <Button onClick={() => setShowForm(true)} className="bg-white text-[#DC7675] hover:bg-gray-100">
+            <Plus className="w-5 h-5 ml-2" />
+            הוספת ספר חדש
+          </Button>
+
+          <FileUpload
+            mode="basic"
+            name="file"
+            accept=".xlsx,.csv"
+            onSelect={handleUpload}
+            chooseLabel="ייבוא קובץ"
+             className="bg-[#DC7675]"
+          />
+        </CardContent>
+      </Card>
+
+      <Toast ref={toast} />
+
+      {/* מסננים + חיפוש */}
       <div className="bg-white rounded-lg shadow p-6 mb-6">
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="flex-1 relative">
@@ -98,15 +167,18 @@ export default function Dashboard() {
               placeholder="חיפוש לפי כותר או מחבר..."
               className="pr-10"
               value={filters.searchTerm}
-              onChange={(e) => setFilters(prev => ({ ...prev, searchTerm: e.target.value }))}
+              onChange={(e) =>
+                setFilters((prev) => ({ ...prev, searchTerm: e.target.value }))
+              }
             />
           </div>
           <BookFilters filters={filters} setFilters={setFilters} />
         </div>
 
-        <BookList books={filteredBooks} onEdit={handleEdit} />
+        <BookList books={filteredBooks} onEdit={handleEdit} onDelete={handleDelete} />
       </div>
 
+      {/* טופס הוספה/עריכה */}
       {showForm && (
         <BookForm
           book={editingBook}

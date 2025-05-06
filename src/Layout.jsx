@@ -20,12 +20,15 @@ export default function Layout({ children }) {
 
       {/* Sidebar */}
       <aside className={cn(
-        "fixed top-0 right-0 z-50 h-full w-64 bg-white border-l transform transition-transform duration-200 ease-in-out md:relative md:translate-x-0",
+        "fixed top-0 right-0 z-50 h-full w-64 bg-[#83B9E1] border-l transform transition-transform duration-200 ease-in-out md:relative md:translate-x-0",
         sidebarOpen ? "translate-x-0" : "translate-x-full"
       )}>
-        <div className="flex items-center justify-between p-4">
-          <h1 className="text-xl font-bold flex items-center gap-2">
-            <Library className="w-6 h-6 text-blue-600" />
+        <div >
+        {/* className="flex items-center justify-between p-4" */}
+           <img src='./logo.png'alt="לוגו" width="200" />
+          <h1 className="text-xl font-bold  ">
+         
+            {/* <Library className="w-6 h-6 text-blue-600" /> */}
             ניהול ספרייה
           </h1>
           <Button

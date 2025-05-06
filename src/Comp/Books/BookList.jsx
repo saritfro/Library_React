@@ -4,8 +4,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { Badge } from '../../components/ui/badge';
 import { Button } from '../../components/ui/button';
 import { Pencil } from "lucide-react";
+import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import axios from "axios";
 
-export default function BookList({ books, onEdit }) {
+export default function BookList({ books, onEdit,onDelete }) {
+  const Delete=()=>{
+    axios.Delete("http://localhost:8080/books/deleteBook/")
+  }
   return (
     <div className="overflow-x-auto">
       <Table>
@@ -23,6 +29,8 @@ export default function BookList({ books, onEdit }) {
         <TableBody>
           {books.map((book) => (
             <TableRow key={book._id}>
+                  <DeleteOutlinedIcon onClick={()=>{onDelete(book)}}/>
+
               <TableCell className="font-medium">{book.bookName}</TableCell>
               <TableCell>{book.category}</TableCell>
               <TableCell>{book.author}</TableCell>
@@ -36,6 +44,13 @@ export default function BookList({ books, onEdit }) {
                   onClick={() => onEdit(book)}
                 >
                   <Pencil className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => onEdit(book)}
+                >
+
                 </Button>
               </TableCell>
             </TableRow>
