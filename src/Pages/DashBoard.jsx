@@ -135,25 +135,54 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-4">
 
+    <div className="max-w-6xl mx-auto p-4">
       {/* כרטיס עם כפתור הוספה וייבוא */}
-      <Card className="w-full bg-[#89BEB] text-white rounded-xl shadow-md p-4 mb-6">
-        <CardContent className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <Button onClick={() => setShowForm(true)} className="bg-white text-[#DC7675] hover:bg-gray-100">
+      <div
+    style={{
+      backgroundImage: `url('/images/books.jpg')`}}></div>
+      <Card className="w-full  text-white rounded-xl shadow p-4 mb-6"  style={{ backgroundColor: "rgb(102 130 173 / 68%)" }}>
+        <CardContent className="flex flex-col md:flex-row  items-center gap-4">
+
+          {/* כפתור הוספת ספר חדש */}
+          <Button onClick={() => setShowForm(true)} className="bg-white  hover:bg-gray-100" style={{ color: "rgb(147 166 196)" }}>
             <Plus className="w-5 h-5 ml-2" />
             הוספת ספר חדש
           </Button>
 
-          <FileUpload
-            mode="basic"
-            name="file"
-            accept=".xlsx,.csv"
-            onSelect={handleUpload}
-            chooseLabel="ייבוא קובץ"
-             className="bg-[#DC7675]"
-          />
+          {/* כפתור ייבוא קובץ – מעוצב זהה */}
+          <div className="p-0">
+            <FileUpload
+              mode="basic"
+              name="file"
+              accept=".xlsx,.csv"
+              onSelect={handleUpload}
+              chooseLabel="ייבוא קובץ"
+              className="custom-upload"
+            />
+          </div>
+
         </CardContent>
+
+        {/* עיצוב מותאם אישית לכפתור ייבוא */}
+        <style>
+          {`
+            .custom-upload > .p-button {
+              background-color: white !important;
+              color: rgb(147 166 196) !important;
+              border: none !important;
+              padding: 0.5rem 1rem !important;
+              font-weight: 500;
+              border-radius: 0.5rem;
+              box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+              transition: background-color 0.2s;
+            }
+
+            .custom-upload > .p-button:hover {
+              background-color: #f3f4f6 !important;
+            }
+          `}
+        </style>
       </Card>
 
       <Toast ref={toast} />

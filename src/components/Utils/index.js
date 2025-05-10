@@ -3,6 +3,10 @@ export function createPageUrl(pageName) {
     switch(pageName) {
       case 'Dashboard':
         return '/';
+        case 'UserLoans':
+          return '/UserLoans';
+          case 'UserReturn':
+            return '/UserReturn';
       case 'Loans':
         return '/loans';
       case 'Settings':

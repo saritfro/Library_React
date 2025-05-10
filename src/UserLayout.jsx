@@ -29,7 +29,7 @@ export default function Layout({ children }) {
           <p style={{ color: "rgb(147 166 196)" }} className="text-xl font-bold  ">
          
             {/* <Library className="w-6 h-6 text-blue-600" /> */}
-            ניהול ספרייה
+            ניהול משתמש
           </p>
           <Button
             variant="ghost"
@@ -42,20 +42,20 @@ export default function Layout({ children }) {
         </div>
         <nav className=" px-4 py-2">
           <Link
-            to={createPageUrl("Dashboard")}
+            to={createPageUrl("UserLoans")}
             className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"
             onClick={() => setSidebarOpen(false)}
           >
             <BookOpen className="w-5 h-5" />
-            ספרים
+            השאלות
           </Link>
           <Link
-            to={createPageUrl("Loans")}
+            to={createPageUrl("UserReturn")}
             className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"
             onClick={() => setSidebarOpen(false)}
           >
             <Users className="w-5 h-5" />
-            השאלות
+            החזרות
           </Link>
           {/* <Link
             to={createPageUrl("Settings")}

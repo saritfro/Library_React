@@ -7,7 +7,7 @@ import { Pencil } from "lucide-react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import axios from "axios";
-
+import CheckBox from "./CheckBox"
 
 export default function BookList({ books, onEdit, onDelete }) {
   const [overedBookId, setOveredBookId] = useState(false)
@@ -23,7 +23,6 @@ export default function BookList({ books, onEdit, onDelete }) {
       <TableHead className="text-center">הוצאה</TableHead>
       <TableHead className="text-center">עותקים</TableHead>
       <TableHead className="text-center">פרסום</TableHead>
-      <TableHead className="text-center w-20"></TableHead>
     </TableRow>
   </TableHeader>
 
@@ -33,20 +32,9 @@ export default function BookList({ books, onEdit, onDelete }) {
         key={book._id}
         className= "bg-w-50 h-20 hover:bg-gray-100 transition"
       >
-          <TableCell className="relative group flex  justify-center items-center min-h-[60px]">
-                {/* DeleteOutlinedIcon יהיה מוסתר בזמן hover */}
-                <DeleteOutlinedIcon
-                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  group-hover:hidden cursor-pointer "
-                  onClick={() => onDelete(book)}
-                />
-
-                {/* DeleteIcon יהיה מוצג בזמן hover */}
-                <DeleteIcon
-
-                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 !hidden group-hover:!block cursor-pointer"
-                  onClick={() => onDelete(book)}
-                />
-              </TableCell>
+          <TableCell className="font-heebo text-lg text-center">
+          <CheckBox className="w-6 h-6" />
+          </TableCell>
 
         <TableCell className="font-heebo text-lg text-center">{book.bookName}</TableCell>
         <TableCell className="font-heebo text-lg text-center">{book.category}</TableCell>
@@ -54,17 +42,7 @@ export default function BookList({ books, onEdit, onDelete }) {
         <TableCell className="font-heebo text-lg text-center">{book.publisher}</TableCell>
         <TableCell className="font-heebo text-lg text-center">{book.copiesNum}</TableCell>
         <TableCell className="font-heebo text-lg text-center">{new Date(book.publishingDate).toLocaleDateString()}</TableCell>
-        <TableCell className="font-heebo text-lg text-center">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => onEdit(book)}
-            className="hover:bg-[#404C5F]-200"
-            
-          >
-            <Pencil className="h-4 w-4 text-[#404C5F]" />
-          </Button>
-        </TableCell>
+    
       </TableRow>
     ))}
     {books.length === 0 && (
