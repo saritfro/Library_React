@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import { Button } from '../components/ui/button';
+import Layout from "../Layout";
 import LoanForm from "../Comp/Loans/LoanForm";    // ✅
 import LoanList from "../Comp/Loans/LoanList";    // 
 import LoanStats from "../Comp/Loans/LoanStats";  // 
@@ -47,6 +48,7 @@ export default function Loans() {
   // };
 
   return (
+    <Layout>
     <div className="max-w-6xl mx-auto">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
@@ -81,5 +83,6 @@ export default function Loans() {
         />
       )}
     </div>
+    </Layout>
   );
 }
