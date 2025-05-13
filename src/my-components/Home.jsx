@@ -1,37 +1,3 @@
-// import React, { useState,useEffect } from "react";
-// import { Button } from '../components/ui/button';
-// import BookForm from './enter'
-// import { Plus } from 'lucide-react';
-// import 'primereact/resources/themes/lara-light-blue/theme.css'; // או נושא אחר
-// import 'primereact/resources/primereact.min.css';
-// import 'primeicons/primeicons.css';
-
-// export default function Dashboard1() {
-//   const [showForm, setShowForm] = useState(false);
-
-//   return (
-//     <div className="max-w-6xl mx-auto">
-      
-
-//         <div className="card"> \\לסדר מיקום 
-//           <Button style={{marginTop:"20px"}} onClick={() => setShowForm(true)} className="bg-blue-600 hover:bg-blue-700">
-//           <Plus className="w-5 h-5 ml-2" />
-//           הוספת ספר חדש
-//         </Button>
-        
-//         </div>
-//     {/* מפעיל את ה DIALOG */}
-//       {showForm && (
-//         <BookForm
-//           onCancel={() => {
-//             setShowForm(false);
-//           }}
-//         />
-//       )}
-//     </div>
-//   );
-// }
-
 
 // רכיב מ MUI
 import * as React from 'react';

@@ -1,25 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Plus } from "lucide-react";
-import { Button } from '../components/ui/button';
 import Layout from "../Layout";
 import LoanForm from "../Comp/Loans/LoanForm";    // ✅
 import LoanList from "../Comp/Loans/LoanList";    // 
 import LoanStats from "../Comp/Loans/LoanStats";  // 
-// import bookList from "../entities/BookList.json";
 
 export default function Loans() {
   const [loans, setLoans] = useState([]);
   const [books, setBooks] = useState([]);
   const [showForm, setShowForm] = useState(false);
  
-  // useEffect(() => {
-  //   loadData();
-  // }, []);
-
-  // const loadData = () => {
-  //   setLoans(loanList);
-  //   setBooks(bookList);
-  // };
+ 
   
 
 
@@ -35,17 +25,7 @@ export default function Loans() {
     setShowForm(false);
   };
 
-  // const handleReturn = (loan) => {
-  //   const updatedLoans = loans.map(l =>
-  //     l.id === loan.id ? { ...l, status: "הוחזר", return_date: new Date().toISOString().split('T')[0] } : l
-  //   );
-  //   setLoans(updatedLoans);
-
-  //   const updatedBooks = books.map(book =>
-  //     book.id === loan.book_id ? { ...book, status: "זמין" } : book
-  //   );
-  //   setBooks(updatedBooks);
-  // };
+ 
 
   return (
     <Layout>
@@ -55,14 +35,7 @@ export default function Loans() {
           <h1 className="text-2xl font-bold text-gray-900">ניהול השאלות</h1>
           <p className="text-gray-500 mt-1">ניהול השאלות ספרים והחזרות</p>
         </div>
-        {/* <Button 
-          onClick={() => setShowForm(true)}
-          className="bg-blue-600 hover:bg-blue-700"
-          disabled={!books.some(book => book.status === "זמין")}
-        >
-          <Plus className="w-5 h-5 ml-2" />
-          השאלה חדשה
-        </Button> */}
+        
       </div>
 
       <LoanStats loans={loans} />
@@ -71,7 +44,6 @@ export default function Loans() {
         <LoanList 
           loans={loans}
           books={books}
-          // onReturn={handleReturn}
         />
       </div>
 
