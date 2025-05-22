@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import 'primereact/resources/themes/lara-light-blue/theme.css';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';  // ודא שהם נטענים לפני כל קובץ CSS אחר שלך
+ // ודא שהם נטענים לפני כל קובץ CSS אחר שלך
 import './index.css';
 import App from './App.js';
 import reportWebVitals from './reportWebVitals.js';
 import {BrowserRouter as Router } from 'react-router-dom';
 import { PrimeReactProvider } from 'primereact/api';
-
+import 'primereact/resources/themes/lara-light-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css'; 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 

@@ -1,57 +1,52 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import Submit from './Submit';
-export default function SimpleList() {
-  const [items, setItems] = useState([
-    { id: 1, name: "א", category: "קטגוריה א" },
-    { id: 2, name: "ב", category: "קטגוריה ב" },
-    { id: 3, name: "ג", category: "קטגוריה ג" },
-    { id: 4, name: "ד", category: "קטגוריה ד" },
-    { id: 5, name: "ה", category: "קטגוריה ה" },
-    { id: 6, name: "ו", category: "קטגוריה ו" },
-    { id: 7, name: "ז", category: "קטגוריה ז" },
-    { id: 8, name: "ח", category: "קטגוריה ח" },
-    { id: 9, name: "ט", category: "קטגוריה ט" },
-    { id: 10, name: "י", category: "קטגוריה י" },
-  ]);
 
-  const handleDelete = (id) => {
-    setItems(prev => prev.filter(item => item.id !== id));
-  };
+export default function CurLoans({ setCheckedLoans, checkedLoans, handleDelete }) {
+  console.log("CurLoans");
 
   return (
-    <div className=" bg-white max-w-md mx-auto mt-6">
-      <h2 className="text-xl font-bold mb-4">רשימת פריטים</h2>
-      <Submit/>
-      {/* דיב שמכיל את הגלילה */}
-      <div className="overflow-y-auto max-h-60"> {/* גובה קבוע וגלילה */}
-        {/* רשימה בלי הפרדה בין פריטים */}
-        {items.map(item => (
+    <div className="bg-white max-w-md mx-auto mt-6 p-6 rounded-2xl shadow-md border border-gray-200">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center border-b pb-2">
+        ספרים להשאלה
+      </h2>
+
+    
+
+      <div className="overflow-y-auto max-h-64 space-y-3 pr-1">
+        {checkedLoans.map(item => (
           <div
-            key={item.id}
-            className="flex items-center justify-between bg-white p-4 shadow rounded hover:bg-gray-50 transition"
+            key={item.bookId}
+            className="flex items-center justify-between bg-[rgb(147,166,196)] text-white px-4 py-3 rounded-xl shadow hover:bg-[rgb(127,146,176)] transition-colors duration-200"
           >
-            <div>
-              <p className="font-bold">{item.name}</p>
-              <p className="text-sm text-gray-500">{item.category}</p>
+            <div className="text-right">
+              <p className="font-semibold text-lg">{item.bookName}</p>
             </div>
-            <div className="relative group">
+
+             <div className="relative group">
             <DeleteOutlinedIcon
                   className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  group-hover:hidden cursor-pointer "
-                  onClick={() => handleDelete(item.id)}
+                  onClick={() => handleDelete(item.bookName)}
                   />
 
                 {/* DeleteIcon יהיה מוצג בזמן hover */}
                 <DeleteIcon
 
                   className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 !hidden group-hover:!block cursor-pointer"
-                  onClick={() => handleDelete(item.id)}
+                  onClick={() => handleDelete(item.bookName)}
                   />
               
-            </div>
+ </div>
           </div>
         ))}
+
+        {checkedLoans.length === 0 && (
+          <p className="text-center text-gray-500 mt-4">לא נבחרו ספרים</p>
+        )}
+      </div>
+        <div className="mt-10 mb-4 mx-auto w-fit">
+        <Submit />
       </div>
     </div>
   );

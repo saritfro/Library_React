@@ -1,13 +1,27 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "name": "Debug React App",
-        "type": "chrome",
-        "request": "launch",
-        "url": "http://localhost:3000",
-        "webRoot": "${workspaceFolder}/src"
-      }
-    ]
-  }
-  
+  "version": "0.2.0",
+  "compounds": [
+    {
+      "name": "Debug Full Stack",
+      "configurations": ["Debug React App", "Debug Node.js Server"]
+    }
+  ],
+  "configurations": [
+    {
+      "name": "Debug React App",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "F:\\ספריה בקליק\\ריאקט חדש\\Library_React\\src"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Node.js Server",
+      "program": "F:\\ספריה בקליק\\nodejs\\index.js", // או הנתיב לכניסה לשרת שלך
+      "cwd": "F:\\ספריה בקליק\\nodejs",
+      "runtimeArgs": ["--inspect"],
+      "console": "integratedTerminal"
+    }
+  ]
+}

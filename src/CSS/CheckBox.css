@@ -1,9 +1,10 @@
-.p-checkbox.p-invalid .p-checkbox-box {
-    border: 1px  red !important;
-    box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.5);
-  }
-  
-  .p-checkbox.p-invalid .p-checkbox-icon {
-    color: red !important;
-  }
-  
+input[type="checkbox"].invalid-checkbox {
+  border: 1px solid red !important;
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.5);
+  outline: none;
+}
+
+/* הסימון עצמו באדום */
+input[type="checkbox"].invalid-checkbox:checked {
+  accent-color: red; /* תומך ברוב הדפדפנים החדשים */
+}

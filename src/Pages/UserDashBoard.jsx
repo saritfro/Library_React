@@ -13,9 +13,12 @@ import CurLoans from "../Comp/UserLoans/CurLoans"
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import { Item } from "@radix-ui/react-select";
 
 export default function UserDashboard() {
+  console.log("UserDashboard")
   const toast = useRef(null);
+ const [checkedLoans,setCheckedLoans]=useState([])
 
   const [books, setBooks] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -50,14 +53,42 @@ export default function UserDashboard() {
     return categoryMatch && statusMatch && searchMatch;
   });
 
- 
 
- 
+
+const handleChecked = (book) => {
+  setCheckedLoans(prev => {
+    if (prev.find(Item=>Item==book)) return prev;
+    return [...prev, book];
+  });
+};
+/**
+ * TODO: Replace usage of bookName with bookId when every item has a unique ID.
+ * Handles deletion of a book from the checked loans list.
+ * 
+ * @param {string} id - The book's ID to remove.
+ */
+const handleDelete = (id) => {
+  setCheckedLoans(prev => prev.filter(item => item.bookName !== id));
+};
+ const fielsDict = {
+    bookId: "מזהה ספר",
+    bookName: "שם ספר",
+    publishingDate: "תאריך הו'ל",
+    publisher: "מו'ל",
+    author: "סופר",
+    lendingDate: "תאריך השאלה נוכחית",
+    copyNumber: "מס' עותק",
+    category: "קטגוריה",
+    status: "סטטוס",
+    Lender: "משאיל"
+  };
   return (
 
-<div className="flex flex-row-reverse">
-<CurLoans/>
-   
+<div className="flex flex-row-reverse ">{console.log("dashbourd2")}
+   <div className="w-1/4 mr-10" >
+
+<CurLoans  setCheckedLoans={setCheckedLoans} checkedLoans={checkedLoans} handleDelete={handleDelete} />
+   </div>
    <div className="w-3/4" >
 
       {/* מסננים + חיפוש */}
@@ -77,7 +108,8 @@ export default function UserDashboard() {
           <BookFilters filters={filters} setFilters={setFilters} />
         </div>
        
-        <BookList books={filteredBooks} />
+        <BookList books={filteredBooks} handleChecked={handleChecked} setCheckedLoans={setCheckedLoans} checkedLoans={checkedLoans} handleDelete={handleDelete} />
+    
       </div>
 
       </div>

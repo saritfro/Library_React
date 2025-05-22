@@ -17,8 +17,10 @@ import "primeicons/primeicons.css";
 
 export default function Dashboard() {
   const toast = useRef(null);
-
+//צריך להפוך לגלובלי
   const [books, setBooks] = useState([]);
+ 
+  //
   const [showForm, setShowForm] = useState(false);
   const [editingBook, setEditingBook] = useState(null);
   const [loading, setLoading] = useState(true);

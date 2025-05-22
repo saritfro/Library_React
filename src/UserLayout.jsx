@@ -1,16 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "./components/Utils";
-import { Library, BookOpen, Users, Settings, Menu, X } from "lucide-react";
+import {
+  Library,
+  ArrowUpFromLine,
+  ArrowDownToLine,
+  Settings,
+  Menu,
+  X
+} from "lucide-react";
 import { Button } from "./components/ui/button";
 import { cn } from "./lib/Utils";
 
-export default function Layout({ children }) {
+export default function UserLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
   return (
     <div className="flex h-screen bg-gray-100" dir="rtl">
-      {/* Mobile sidebar backdrop */}
+      {/* רקע תפריט במובייל */}
       {sidebarOpen && (
         <div 
           className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
@@ -18,17 +25,14 @@ export default function Layout({ children }) {
         />
       )}
 
-      {/* Sidebar */}
+      {/* סיידבר */}
       <aside style={{ backgroundColor: "rgb(225 134 131 / 45%)" }} className={cn(
         "fixed top-0 right-0 z-50 h-full w-64 bg-[#83B9E1] border-l transform transition-transform duration-200 ease-in-out md:relative md:translate-x-0",
         sidebarOpen ? "translate-x-0" : "translate-x-full"  
       )}>
-        <div >
-        {/* className="flex items-center justify-between p-4" */}
-           <img src='./images/logo.png'alt="לוגו" width="200" />
-          <p style={{ color: "rgb(147 166 196)" }} className="text-xl font-bold  ">
-         
-            {/* <Library className="w-6 h-6 text-blue-600" /> */}
+        <div>
+          <img src="./images/logo.png" alt="לוגו" width="200" />
+          <p style={{ color: "rgb(147 166 196)" }} className="text-xl font-bold">
             ניהול משתמש
           </p>
           <Button
@@ -39,14 +43,15 @@ export default function Layout({ children }) {
           >
             <X className="h-6 w-6" />
           </Button>
-        </div>
-        <nav className=" px-4 py-2">
+        </div>      
+
+        <nav className="px-4 py-2">
           <Link
             to={createPageUrl("UserLoans")}
             className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"
             onClick={() => setSidebarOpen(false)}
           >
-            <BookOpen className="w-5 h-5" />
+            <ArrowUpFromLine className="w-5 h-5" />
             השאלות
           </Link>
           <Link
@@ -54,23 +59,14 @@ export default function Layout({ children }) {
             className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"
             onClick={() => setSidebarOpen(false)}
           >
-            <Users className="w-5 h-5" />
+            <ArrowDownToLine className="w-5 h-5" />
             החזרות
           </Link>
-          {/* <Link
-            to={createPageUrl("Settings")}
-            className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg"
-            onClick={() => setSidebarOpen(false)}
-          >
-            <Settings className="w-5 h-5" />
-            הגדרות
-          </Link> */}
         </nav>
       </aside>
 
-      {/* Main content */}
+      {/* תוכן ראשי */}
       <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
-        {/* Mobile header */}
         <header className="md:hidden bg-white border-b px-4 py-3">
           <Button
             variant="ghost"
@@ -82,7 +78,6 @@ export default function Layout({ children }) {
           </Button>
         </header>
 
-        {/* Main content area */}
         <main className="flex-1 overflow-auto p-4">
           {children}
         </main>
