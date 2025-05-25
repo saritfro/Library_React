@@ -11,6 +11,9 @@ import { Toast } from "primereact/toast";
 import { FileUpload } from "primereact/fileupload";
 import { Card, CardContent } from "../components/ui/card";
 
+
+// import CardWithForm from './Comp/TryComp/Card.jsx'; // דוגמה לשימוש ברכיב כרטיס עם טופס
+
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
@@ -141,7 +144,7 @@ export default function Dashboard() {
     <div className="max-w-6xl mx-auto p-4">
       {/* כרטיס עם כפתור הוספה וייבוא */}
       <div
-    style={{
+     style={{
       backgroundImage: `url('/images/books.jpg')`}}></div>
       <Card className="w-full  text-white rounded-xl shadow p-4 mb-6"  style={{ backgroundColor: "rgb(102 130 173 / 68%)" }}>
         <CardContent className="flex flex-col md:flex-row  items-center gap-4">
