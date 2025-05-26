@@ -17,7 +17,7 @@ export default function FormManager() {
         //צריך לטפל בהתחברות עם נוד+מונגו
         e.preventDefault();
         if (formData.userName === "מנהלת"&&formData.password=== "8520") {
-            navigate("/FormManager");
+            navigate("/Dashboard");
         } else {
             alert("שם משתמש או ססמה לא נכונים");
         }

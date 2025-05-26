@@ -10,14 +10,14 @@ import UserReturn from './UserReturn.jsx'; // ודא שייבאת את הרכי�
 import SettingForm from './Comp/Settings/SettingForm.jsx';
 
 import Form from './Comp/TryComp/Form.jsx';
-import FormManager from './Comp/TryComp/FormManager.jsx'; // ודא שייבאת את הרכיב נכון
+import FormManager from './Comp/TryComp/Formmanager.jsx'; // ודא שייבאת את הרכיב נכון
 
 function App() {
   return (
     <div className="App">
 
       <Link
-        to="/Form"
+        to="/"
         className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg"
       >
         TryComp
@@ -29,7 +29,7 @@ function App() {
         משתמש
       </Link>
         <Link
-        to="FormManager"
+        to="/FormManager"
         className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg"
       >
         ניהול ספריה
@@ -47,12 +47,12 @@ function App() {
         <Route path="/SettingForm" element={<UserLayout><SettingForm /></UserLayout>} />
 
         {/* דף הבית ותחומים נוספים */}
-        <Route path="/" element={<FormManager />} />
+        <Route path="/Dashboard" element={<Layout><Dashboard /></Layout>} />
         <Route path="/loans" element={<Layout><Loans/></Layout>} />
 
         {/* TryComp */}
-        <Route path="/Form" element={<Layout><Form /></Layout>} />
-        <Route path="/FormManager" element={<Layout><Dashboard /></Layout>} />
+        <Route path="/" element={<Layout><Form /></Layout>} />
+        <Route path="/FormManager" element={<FormManager />} />
       </Routes>
     </div>
   );
