@@ -9,12 +9,24 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import axios from "axios";
 
 
-export default function BookList({ books, onEdit, onDelete }) {
-  const [fields, setfields] = useState([])
+export default function BookList({ books, onEdit, onDelete }) { 
   const [overedBookId, setOveredBookId] = useState(false)
+  const [fields, setfields] = useState([])
  
-  useEffect(() => axios.get("http://localhost:8080/books/getBooksFields")//לשנות לשליפת השדות הנבחרים 
-    .then(res => { setfields(res.data); console.log(res.data) }).catch(e => console.log(e)), [])
+ useEffect(() => {
+  const fetchFields = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/settings/getSettings");
+      setfields(res.data.choosedFields?res.data.choosedFields:"");
+      console.log(fields)
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  fetchFields();
+}, []);
+
   return (
     <div className="overflow-x-auto ">
       <Table className="w-full table-auto border border-gray-200 shadow-sm rounded-lg overflow-hidden">

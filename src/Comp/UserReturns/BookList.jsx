@@ -1,5 +1,4 @@
 
-import React, { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table';
 import { Badge } from '../../components/ui/badge';
 import { Button } from '../../components/ui/button';
@@ -8,11 +7,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import axios from "axios";
 import CheckBox from "./CheckBox"
-import { fi } from "date-fns/locale";
+import React, { useState, useEffect } from "react";
 // import "../../CSS/CheckBox.css";  
-import { useEffect } from "react";
+
 export default function BookList({ books, handleChecked, setCheckedLoans, checkedLoans, handleDelete }) {
   const [overedBookId, setOveredBookId] = useState(false)
+  console.log("BookList"+books)
   const [fields, setfields] = useState([])
  
  useEffect(() => {
@@ -29,7 +29,6 @@ export default function BookList({ books, handleChecked, setCheckedLoans, checke
   fetchFields();
 }, []);
 
-  console.log("BookList")
 
   return (
     <div className="overflow-x-auto ">
@@ -37,17 +36,21 @@ export default function BookList({ books, handleChecked, setCheckedLoans, checke
         <TableHeader className=" text-white-700">
           <TableRow>
             <TableHead className="text-center w-12"></TableHead>
-            {fields.map(i=>            <TableHead className="text-center">{i}</TableHead>
-)}
+              {fields.map(i=><TableHead key={i} className="text-center">{i}</TableHead>
+           )}
+            {/* <TableHead className="text-center w-12"></TableHead> */}
           </TableRow>
         </TableHeader>
 
         <TableBody>
+          {console.log("books"+books)}
           {books.map((book, index) => (
+    
             <TableRow
               key={book._id}
               className="bg-w-50 h-20 hover:bg-gray-100 transition"
             >
+                      {console.log(book)}
               <TableCell className="font-heebo text-lg text-center">
                 <input type="Checkbox"
                   className={`w-6 h-6 `}
@@ -63,12 +66,10 @@ export default function BookList({ books, handleChecked, setCheckedLoans, checke
                   }} />
               </TableCell>
 
-              <TableCell className="font-heebo text-lg text-center">{book.bookName}</TableCell>
-              <TableCell className="font-heebo text-lg text-center">{book.category}</TableCell>
-              <TableCell className="font-heebo text-lg text-center">{book.author}</TableCell>
-              <TableCell className="font-heebo text-lg text-center">{book.publisher}</TableCell>
-              <TableCell className="font-heebo text-lg text-center">{book.copiesNum}</TableCell>
-              <TableCell className="font-heebo text-lg text-center">{new Date(book.publishingDate).toLocaleDateString()}</TableCell>
+                
+              {fields.map(i => <TableCell key={i}  className="text-center">{book[i]}</TableCell>
+             )}
+              {/* <TableCell className="font-heebo text-lg text-center">{new Date(book.publishingDate).toLocaleDateString()}</TableCell> */}
 
             </TableRow>
           ))}

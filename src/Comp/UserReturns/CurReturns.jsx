@@ -1,38 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import Submit from './Submit';
 import axios from 'axios';
 
-export default function CurLoans({ setCheckedLoans, checkedLoans, handleDelete }) {
-  console.log("CurLoans");
-  const [userId,setUserId]=useState(1);//זמני👌👌👌👌👌
-
-const handleSubmit = () => {
-  console.log(" סבמיט👍👍👍")
-  Promise.all(
-    checkedLoans.map(i => {
-      console.log("להשאלה"+i.bookName+i.bookId+" "+userId);
-      return axios.put(`http://localhost:8080/users/BorrowUsersBooks/${userId}/${i._id}`)
-        .then(response => {
-          console.log(response.data);
-
-        })
-        .catch(err => {
-          console.error("Cannot borrow user's book", err);
-        });
-    })
-  ).then(() => {
-    console.log("All borrow requests completed.");
-         setCheckedLoans([]);
-
-  });
+export default function CurReturns({ setCheckedLoans, checkedLoans, handleDelete }) {
+  console.log("CurReturn");
+const handleSubmit = async () => {
+  try {
+    for (const i of checkedLoans) {
+      console.log(i);
+      const res = await axios.put(`http://localhost:8080/users/ReturnUsersBooks/1/${i._id}`);
+      console.log(res.data);
+    }
+    setCheckedLoans([])
+  } catch (err) {
+    console.error("שגיאה בהחזרת ספרים:", err);
+  }
 };
 
   return (
     <div className="bg-white max-w-md mx-auto mt-6 p-6 rounded-2xl shadow-md border border-gray-200">
       <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center border-b pb-2">
-        ספרים להשאלה
+        ספרים להחזרה
       </h2>
 
     
@@ -69,9 +59,7 @@ const handleSubmit = () => {
         )}
       </div>
         <div className="mt-10 mb-4 mx-auto w-fit">
-        {/* <Submit  onSubmit={handleSubmit}/> */}
-        <button className='w-39' onClick={handleSubmit}>אשר השאלה</button>
-
+        <Submit onClick={handleSubmit}/>
       </div>
     </div>
   );
