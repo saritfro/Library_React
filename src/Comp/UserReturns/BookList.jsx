@@ -8,26 +8,36 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import axios from "axios";
 import CheckBox from "./CheckBox"
 import React, { useState, useEffect } from "react";
+import { useMyContext } from "../../myContext.jsx";
+
 // import "../../CSS/CheckBox.css";  
 
 export default function BookList({ books, handleChecked, setCheckedLoans, checkedLoans, handleDelete }) {
+  const {fieldsDict} = useMyContext();
+  console.log("fieldsDict",fieldsDict)
   const [overedBookId, setOveredBookId] = useState(false)
-  console.log("BookList"+books)
+  console.log("BookList" + books)
   const [fields, setfields] = useState([])
- 
- useEffect(() => {
-  const fetchFields = async () => {
-    try {
-      const res = await axios.get("http://localhost:8080/settings/getSettings");
-      setfields(res.data.choosedFields?res.data.choosedFields:"");
-      console.log(fields)
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const [Hebrewfields, setHebrewfields] = useState([])
 
-  fetchFields();
-}, []);
+  useEffect(() => {
+    const fetchFields = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/settings/getSettings");
+        if (res.data.choosedFields)
+         {
+          console.log("choosedFields",res.data.choosedFields)
+           setHebrewfields(res.data.choosedFields.map(i =>  i in fieldsDict? fieldsDict[i]:i))
+           setfields(res.data.choosedFields)
+           console.log(fields,"fields")
+         }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    fetchFields();
+  }, []);
 
 
   return (
@@ -36,21 +46,21 @@ export default function BookList({ books, handleChecked, setCheckedLoans, checke
         <TableHeader className=" text-white-700">
           <TableRow>
             <TableHead className="text-center w-12"></TableHead>
-              {fields.map(i=><TableHead key={i} className="text-center">{i}</TableHead>
-           )}
+            {Hebrewfields.map(i => <TableHead key={i} className="text-center">{i}</TableHead>
+            )}
             {/* <TableHead className="text-center w-12"></TableHead> */}
           </TableRow>
         </TableHeader>
 
         <TableBody>
-          {console.log("books"+books)}
+          {console.log("books" + books)}
           {books.map((book, index) => (
-    
+
             <TableRow
               key={book._id}
               className="bg-w-50 h-20 hover:bg-gray-100 transition"
             >
-                      {console.log(book)}
+              {console.log(book)}
               <TableCell className="font-heebo text-lg text-center">
                 <input type="Checkbox"
                   className={`w-6 h-6 `}
@@ -66,9 +76,9 @@ export default function BookList({ books, handleChecked, setCheckedLoans, checke
                   }} />
               </TableCell>
 
-                
-              {fields.map(i => <TableCell key={i}  className="text-center">{book[i]}</TableCell>
-             )}
+
+              {fields.map(i => <TableCell key={i} className="text-center">{book[i]}</TableCell>
+              )}
               {/* <TableCell className="font-heebo text-lg text-center">{new Date(book.publishingDate).toLocaleDateString()}</TableCell> */}
 
             </TableRow>

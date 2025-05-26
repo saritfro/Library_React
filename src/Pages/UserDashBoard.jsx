@@ -14,9 +14,9 @@ import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import { Item } from "@radix-ui/react-select";
-
 export default function UserDashboard() {
   console.log("UserDashboard")
+
   const toast = useRef(null);
  const [checkedLoans,setCheckedLoans]=useState([])
 
@@ -70,18 +70,7 @@ const handleChecked = (book) => {
 const handleDelete = (id) => {
   setCheckedLoans(prev => prev.filter(item => item.bookName !== id));
 };
- const fielsDict = {
-    bookId: "מזהה ספר",
-    bookName: "שם ספר",
-    publishingDate: "תאריך הו'ל",
-    publisher: "מו'ל",
-    author: "סופר",
-    lendingDate: "תאריך השאלה נוכחית",
-    copyNumber: "מס' עותק",
-    category: "קטגוריה",
-    status: "סטטוס",
-    Lender: "משאיל"
-  };
+
   return (
 
 <div className="flex flex-row-reverse ">{console.log("dashbourd2")}

@@ -9,25 +9,30 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import axios from "axios";
 import CheckBox from "./CheckBox"
 import { fi } from "date-fns/locale";
+import { useMyContext } from "../../myContext.jsx";
+
 // import "../../CSS/CheckBox.css";  
 import { useEffect } from "react";
 export default function BookList({ books, handleChecked, setCheckedLoans, checkedLoans, handleDelete }) {
   const [overedBookId, setOveredBookId] = useState(false)
   const [fields, setfields] = useState([])
- 
- useEffect(() => {
-  const fetchFields = async () => {
-    try {
-      const res = await axios.get("http://localhost:8080/settings/getSettings");
-      setfields(res.data.choosedFields?res.data.choosedFields:"");
-      console.log(fields)
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const { fieldsDict } = useMyContext();
+  const [Hebrewfields, setHebrewfields] = useState([])
 
-  fetchFields();
-}, []);
+  useEffect(() => {
+    const fetchFields = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/settings/getSettings");
+        setfields(res.data.choosedFields ? res.data.choosedFields : "")
+        setHebrewfields(res.data.choosedFields.map(i => i in fieldsDict ? fieldsDict[i] : i))
+        console.log(fields)
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    fetchFields();
+  }, []);
 
   console.log("BookList")
 
@@ -37,8 +42,8 @@ export default function BookList({ books, handleChecked, setCheckedLoans, checke
         <TableHeader className=" text-white-700">
           <TableRow>
             <TableHead className="text-center w-12"></TableHead>
-            {fields.map(i=>            <TableHead className="text-center">{i}</TableHead>
-)}
+            {Hebrewfields.map(i => <TableHead className="text-center">{i}</TableHead>
+            )}
           </TableRow>
         </TableHeader>
 
@@ -63,12 +68,9 @@ export default function BookList({ books, handleChecked, setCheckedLoans, checke
                   }} />
               </TableCell>
 
-              <TableCell className="font-heebo text-lg text-center">{book.bookName}</TableCell>
-              <TableCell className="font-heebo text-lg text-center">{book.category}</TableCell>
-              <TableCell className="font-heebo text-lg text-center">{book.author}</TableCell>
-              <TableCell className="font-heebo text-lg text-center">{book.publisher}</TableCell>
-              <TableCell className="font-heebo text-lg text-center">{book.copiesNum}</TableCell>
-              <TableCell className="font-heebo text-lg text-center">{new Date(book.publishingDate).toLocaleDateString()}</TableCell>
+               {fields.map(i=>   <TableCell className="font-heebo text-lg text-center">{book[i]}</TableCell>)}
+
+              {/* <TableCell className="font-heebo text-lg text-center">{new Date(book.publishingDate).toLocaleDateString()}</TableCell> */}
 
             </TableRow>
           ))}

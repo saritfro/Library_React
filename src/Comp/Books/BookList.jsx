@@ -7,33 +7,37 @@ import { Pencil } from "lucide-react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import axios from "axios";
+import { useMyContext } from "../../myContext.jsx";
 
 
 export default function BookList({ books, onEdit, onDelete }) { 
   const [overedBookId, setOveredBookId] = useState(false)
   const [fields, setfields] = useState([])
  
- useEffect(() => {
-  const fetchFields = async () => {
-    try {
-      const res = await axios.get("http://localhost:8080/settings/getSettings");
-      setfields(res.data.choosedFields?res.data.choosedFields:"");
-      console.log(fields)
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const { fieldsDict } = useMyContext();
+  const [Hebrewfields, setHebrewfields] = useState([])
 
-  fetchFields();
-}, []);
+  useEffect(() => {
+    const fetchFields = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/settings/getSettings");
+        setfields(res.data.choosedFields ? res.data.choosedFields : "")
+        setHebrewfields(res.data.choosedFields.map(i => i in fieldsDict ? fieldsDict[i] : i))
+        console.log(fields)
+      } catch (e) {
+        console.log(e);
+      }
+    };
 
+    fetchFields();
+  }, []);
   return (
     <div className="overflow-x-auto ">
       <Table className="w-full table-auto border border-gray-200 shadow-sm rounded-lg overflow-hidden">
         <TableHeader className=" text-white-700">
           <TableRow>
             <TableHead className="text-center w-12"></TableHead>
-            {fields.map(i => <TableHead className="text-center">{i}</TableHead>)}
+            {Hebrewfields.map(i => <TableHead className="text-center">{i}</TableHead>)}
             <TableHead className="text-center w-20"></TableHead>
           </TableRow>
         </TableHeader>
@@ -62,7 +66,7 @@ export default function BookList({ books, onEdit, onDelete }) {
               {fields.map(field => <TableCell className="font-heebo text-lg text-center"> {
                 field === "publishingDate" && book[field]
                   ? new Date(book[field]).toLocaleDateString()
-                  : ""
+                  : book[field]
               }</TableCell>
               )}
               <TableCell className="font-heebo text-lg text-center">

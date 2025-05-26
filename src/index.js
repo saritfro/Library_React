@@ -1,20 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
- // ודא שהם נטענים לפני כל קובץ CSS אחר שלך
+// ודא שהם נטענים לפני כל קובץ CSS אחר שלך
 import './index.css';
 import App from './App.js';
 import reportWebVitals from './reportWebVitals.js';
-import {BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { PrimeReactProvider } from 'primereact/api';
 import 'primereact/resources/themes/lara-light-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css'; 
+import 'primeicons/primeicons.css';
+import MyProvider from './myContext.jsx'
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+    
+        <PrimeReactProvider>
+            <Router>
+      <MyProvider>   <App />    </MyProvider>
 
-    <PrimeReactProvider>
-    <Router>
-    <App /></Router></PrimeReactProvider>
+            </Router>
+        </PrimeReactProvider>
+
 
 );
 
