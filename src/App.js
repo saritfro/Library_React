@@ -6,12 +6,11 @@ import UserDashboard from './Pages/UserDashBoard.jsx';
 import Loans from './Pages/Loans';
 import Layout from './Layout.jsx';
 import UserLayout from './UserLayout.jsx';
-import UserReturn from './UserReturn.jsx'; // ודא שייבאת את הרכיב נכון
+import UserReturn from './UserReturn.jsx';
 import SettingForm from './Comp/Settings/SettingForm.jsx';
 
 import Form from './Comp/TryComp/Form.jsx';
-import FormManager from './Comp/TryComp/Formmanager.jsx'; // ודא שייבאת את הרכיב נכון
-
+import FormManager from './Comp/TryComp/Formmanager.jsx'; 
 function App() {
   return (
     <div className="App">
