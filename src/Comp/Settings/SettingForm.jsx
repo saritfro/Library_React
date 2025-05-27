@@ -1,19 +1,20 @@
 import axios from "axios";
 import { useState } from "react";
-import CategoryInput from './CategoryInput';
+// import CategoryInput from './CategoryInput';
 export default function SettingForm() {
-  const dict = {
-    bookId: "קוד",
-    bookName: "שם",
-    publishingDate: "תאריך הו'ל",
-    publisher: "הו'ל",
-    author: "סופר",
-    lendingDate: "תאריך השאלה נוכחי",
-    copyNumber: "מס' עותק",
-    category: "קטגוריה",
-    status: "סטטוס",
-    Lender: "בהשאלה אצל"
-  };
+ const dict = {
+  bookId: "קוד",
+  bookName: "שם",
+  publishingDate: "תאריך הו'ל",
+  publisher: "הו'ל",
+  author: "סופר",
+  lendingDate: "תאריך השאלה נוכחי",
+  copyNumber: "מס' עותק",
+  category: "קטגוריה",
+  status: "סטטוס",
+  Lender: "בהשאלה אצל"
+};
+
  
   const [categories, setCategories] = useState([""]);
   const [Fields, setFields] = useState([]);
@@ -64,20 +65,16 @@ export default function SettingForm() {
       <label>
         subscriptionValidity
         <input type="number" name="subscriptionValidity" onChange={handleChange} />
-      </label>
+      </label><br/>
       <label>
         loanDuration
         <input type="number" name="loanDuration" onChange={handleChange} />
-      </label>
+      </label><br/>
       <label>
         lateFee
         <input type="number" name="lateFee" onChange={handleChange} />
-      </label>
-<CategoryInput
-  handleChange={handleChange}
-  categories={categories}
-  setCategories={setCategories}
-/>
+      </label><br/>
+
       {Object.entries(dict).map(([key, label]) => (
         <div key={key}>
           <label>
@@ -90,7 +87,11 @@ export default function SettingForm() {
           </label>
         </div>
       ))}
-
+{/* <CategoryInput
+  handleChange={handleChange}
+  categories={categories}
+  setCategories={setCategories}
+/> */}
       <button type="submit">אישור</button>
     </form>
   );

@@ -6,11 +6,30 @@ import { Pencil } from "lucide-react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import axios from "axios";
+import { useMyContext } from "../../myContext.jsx";
 
 
-export default function BookList({ books, onEdit, onDelete }) {
-  const [fields, setfields] = useState([])
+export default function BookList({ books, onEdit, onDelete }) { 
   const [overedBookId, setOveredBookId] = useState(false)
+  const [fields, setfields] = useState([])
+ 
+  const { fieldsDict } = useMyContext();
+  const [Hebrewfields, setHebrewfields] = useState([])
+
+  useEffect(() => {
+    const fetchFields = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/settings/getSettings");
+        setfields(res.data.choosedFields ? res.data.choosedFields : "")
+        setHebrewfields(res.data.choosedFields.map(i => i in fieldsDict ? fieldsDict[i] : i))
+        console.log(fields)
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    fetchFields();
+  }, []);
 
   useEffect(() => axios.get("http://localhost:8080/books/getBooksFields")//לשנות לשליפת השדות הנבחרים 
     .then(res => { setfields(res.data); console.log(res.data) }).catch(e => console.log(e)), [])
@@ -20,7 +39,7 @@ export default function BookList({ books, onEdit, onDelete }) {
         <TableHeader className=" text-white-700">
           <TableRow>
             <TableHead className="text-center w-12"></TableHead>
-            {fields.map(i => <TableHead className="text-center">{i}</TableHead>)}
+            {Hebrewfields.map(i => <TableHead className="text-center">{i}</TableHead>)}
             <TableHead className="text-center w-20"></TableHead>
           </TableRow>
         </TableHeader>
@@ -49,7 +68,7 @@ export default function BookList({ books, onEdit, onDelete }) {
               {fields.map(field => <TableCell className="font-heebo text-lg text-center"> {
                 field === "publishingDate" && book[field]
                   ? new Date(book[field]).toLocaleDateString()
-                  : ""
+                  : book[field]
               }</TableCell>
               )}
               <TableCell className="font-heebo text-lg text-center">

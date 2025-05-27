@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react";
-// import { Button } from "../components/ui/button";
+import React, { useState, useEffect, useRef } from "react";
+import * as XLSX from "xlsx";
+import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import BookFilters from "../Comp/UserLoans/BookFilters";
-import BookList from "../Comp/UserLoans/BookList";
-import {Search } from "lucide-react";
+import BookList from "../Comp/UserReturns/BookList";
+import { Plus, Search } from "lucide-react";
 import axios from "axios";
 import { Toast } from "primereact/toast";
 import { FileUpload } from "primereact/fileupload";
 import { Card, CardContent } from "../components/ui/card";
-import CurLoans from "../Comp/UserLoans/CurLoans"
+import CurReturns from "../Comp/UserReturns/CurReturns"
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import { Item } from "@radix-ui/react-select";
-export default function UserDashboard() {
-  console.log("UserDashboard")
 
+export default function UserReturn() {
+  console.log("UserReturn")
   const toast = useRef(null);
  const [checkedLoans,setCheckedLoans]=useState([])
 
@@ -31,16 +32,17 @@ export default function UserDashboard() {
   });
 
   useEffect(() => {
-    axios.get("http://localhost:8080/books/getAllBooks")
+    axios.get("http://localhost:8080/users/getUser/1")//זמני👌👌👌👌
       .then((response) => {
-        setBooks(response.data);
+        setBooks(response.data.curBorrowedbooks);
         setLoading(false);
+        console.log("books"+books)
       })
       .catch((err) => {
         setError(err.message);
         setLoading(false);
       });
-  }, []);
+  }, [checkedLoans]);
 
   
   const filteredBooks = books.filter((book) => {
@@ -56,7 +58,7 @@ export default function UserDashboard() {
 
 const handleChecked = (book) => {
   setCheckedLoans(prev => {
-    if (prev.find(Item=>Item===book)) return prev;
+    if (prev.find(Item=>Item==book)) return prev;
     return [...prev, book];
   });
 };
@@ -69,13 +71,24 @@ const handleChecked = (book) => {
 const handleDelete = (id) => {
   setCheckedLoans(prev => prev.filter(item => item.bookName !== id));
 };
-
+ const fielsDict = {
+    bookId: "מזהה ספר",
+    bookName: "שם ספר",
+    publishingDate: "תאריך הו'ל",
+    publisher: "מו'ל",
+    author: "סופר",
+    lendingDate: "תאריך השאלה נוכחית",
+    copyNumber: "מס' עותק",
+    category: "קטגוריה",
+    status: "סטטוס",
+    Lender: "משאיל"
+  };
   return (
 
 <div className="flex flex-row-reverse ">{console.log("dashbourd2")}
    <div className="w-1/4 mr-10" >
 
-<CurLoans  setCheckedLoans={setCheckedLoans} checkedLoans={checkedLoans} handleDelete={handleDelete} />
+<CurReturns  setCheckedLoans={setCheckedLoans} checkedLoans={checkedLoans} handleDelete={handleDelete} />
    </div>
    <div className="w-3/4" >
 
