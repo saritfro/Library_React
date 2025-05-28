@@ -52,6 +52,7 @@ export default function EntryLayout({ children }) {
                     </Link>
                     <Link
                         to={createPageUrl("FormManager")}
+                        state="/DashBoard"
                         className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"
                         onClick={() => setSidebarOpen(false)}
                     >
@@ -60,6 +61,7 @@ export default function EntryLayout({ children }) {
                     </Link>
                     <Link
                         to={createPageUrl("FormManager")}
+                         state="/SettingForm"
                         className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg"
                         onClick={() => setSidebarOpen(false)}
                     >
@@ -67,7 +69,7 @@ export default function EntryLayout({ children }) {
                         הגדרות
                     </Link>
                     <Link
-                        to={createPageUrl("/")}
+                        to={"/"}
                         className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"
                         onClick={() => setSidebarOpen(false)}
                     >

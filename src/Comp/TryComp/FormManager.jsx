@@ -4,9 +4,11 @@ import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useLocation } from 'react-router-dom';
 
 
 export default function FormManager() {
+      const location = useLocation();
     const navigate = useNavigate();
     const [formData, setFormData] = React.useState({
         userName: "",
@@ -17,7 +19,7 @@ export default function FormManager() {
         //צריך לטפל בהתחברות עם נוד+מונגו
         e.preventDefault();
         if (formData.userName === "מנהלת"&&formData.password=== "8520") {
-            navigate("/Dashboard");
+            navigate(location.state);
         } else {
             alert("שם משתמש או ססמה לא נכונים");
         }
@@ -63,9 +65,6 @@ export default function FormManager() {
                 />
             </div>
             <div className="flex justify-end gap-3 pt-4">
-                {/* <Button type="button" variant="outline" onClick={onCancel}>
-                    ביטול
-                </Button> */}
                 <Button
                     type="submit"
                     className="bg-blue-600 hover:bg-blue-700 mx-auto block"

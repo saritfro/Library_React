@@ -1,17 +1,32 @@
-
 import React from "react";
-import { Button } from '../../components/ui/button';
-import { Input } from '../../components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../components/ui/dialog';
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "../../components/ui/dialog";
+// import { label } from "../../components/ui/label";
 
 export default function BookForm({ book, onSubmit, onCancel }) {
-  const [formData, setFormData] = React.useState(book || {
-    bookName: "",
-    publishingDate: new Date().toISOString().split("T")[0],
-    publisher: "",
-    category: "אנגלית"
-  });
+  const [formData, setFormData] = React.useState(
+    book || {
+      bookName: "",
+      publishingDate: new Date().toISOString().split("T")[0],
+      publisher: "",
+      author: "",
+      copiesNum: "",
+      category: "אנגלית",
+    }
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,62 +35,102 @@ export default function BookForm({ book, onSubmit, onCancel }) {
 
   return (
     <Dialog open={true} onOpenChange={onCancel}>
-      <DialogContent className="bg-white">
+      <DialogContent className="bg-white max-w-xl rounded-2xl shadow-xl">
         <DialogHeader>
-          <DialogTitle>{book ? 'עריכת ספר' : 'הוספת ספר חדש'}</DialogTitle>
+          <DialogTitle className="text-xl font-semibold text-center">
+            {book ? "עריכת ספר" : "הוספת ספר חדש"}
+          </DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="text-sm font-medium">שם הספר</label>
+
+        <form onSubmit={handleSubmit} className="space-y-5 mt-4">
+          {/* שם הספר */}
+          <div className="space-y-1">
+            <label>שם הספר</label>
             <Input
               required
+              placeholder="לדוגמה: הארי פוטר"
               value={formData.bookName}
-              onChange={(e) => setFormData({ ...formData, bookName: e.target.value })}
-            />
-          </div>
-          <div>
-            <label className="text-sm font-medium">שם הסופר</label>
-            <Input
-              required
-              value={formData.author}
-              onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-            />
-          </div>
-          <div>
-            <label className="text-sm font-medium">הוצאה לאור</label>
-            <Input
-              value={formData.publisher}
-              onChange={(e) => setFormData({ ...formData, publisher: e.target.value })}
-            />
-          </div>
-          <div>
-            <label className="text-sm font-medium">מספר עותקים</label>
-            <Input
-              value={formData.copiesNum}
-              onChange={(e) => setFormData({ ...formData, copiesNum: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, bookName: e.target.value })
+              }
             />
           </div>
 
-          <div>
-            <label className="text-sm font-medium">תאריך פרסום</label>
+          {/* שם הסופר */}
+          <div className="space-y-1">
+            <label>שם הסופר</label>
+            <Input
+              required
+              placeholder="לדוגמה: ג'יי קיי רולינג"
+              value={formData.author}
+              onChange={(e) =>
+                setFormData({ ...formData, author: e.target.value })
+              }
+            />
+          </div>
+
+          {/* הוצאה לאור */}
+          <div className="space-y-1">
+            <label>הוצאה לאור</label>
+            <Input
+              placeholder="לדוגמה: ידיעות ספרים"
+              value={formData.publisher}
+              onChange={(e) =>
+                setFormData({ ...formData, publisher: e.target.value })
+              }
+            />
+          </div>
+
+          {/* מספר עותקים */}
+          <div className="space-y-1">
+            <label>מספר עותקים</label>
+            <Input
+              type="number"
+              placeholder="לדוגמה: 5"
+              value={formData.copiesNum}
+              onChange={(e) =>
+                setFormData({ ...formData, copiesNum: e.target.value })
+              }
+            />
+          </div>
+
+          {/* תאריך פרסום */}
+          <div className="space-y-1">
+            <label>תאריך פרסום</label>
             <Input
               type="date"
               value={formData.publishingDate}
-              onChange={(e) => setFormData({ ...formData, publishingDate: e.target.value })}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  publishingDate: e.target.value,
+                })
+              }
             />
           </div>
 
-          <div>
-            <label className="text-sm font-medium">קטגוריה</label>
+          {/* קטגוריה */}
+          <div className="space-y-1">
+            <label>קטגוריה</label>
             <Select
               value={formData.category}
-              onValueChange={(value) => setFormData({ ...formData, category: value })}
+              onValueChange={(value) =>
+                setFormData({ ...formData, category: value })
+              }
             >
-              <SelectTrigger>
-                <SelectValue />
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="בחר קטגוריה" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
-              {["אנגלית", "פעוטות", "ילדים", "נוער", "מבוגר", "שואה", "עיוני"].map((category) => (
+              <SelectContent>
+                {[
+                  "אנגלית",
+                  "פעוטות",
+                  "ילדים",
+                  "נוער",
+                  "מבוגר",
+                  "שואה",
+                  "עיוני",
+                ].map((category) => (
                   <SelectItem key={category} value={category}>
                     {category}
                   </SelectItem>
@@ -84,12 +139,21 @@ export default function BookForm({ book, onSubmit, onCancel }) {
             </Select>
           </div>
 
-          <div className="flex justify-end gap-3 pt-4">
-            <Button type="button" variant="outline" onClick={onCancel}>
+          {/* כפתורים */}
+          <div className="flex justify-end gap-4 pt-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onCancel}
+              className="rounded-xl"
+            >
               ביטול
             </Button>
-            <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
-              {book ? 'עדכון' : 'הוספה'}
+            <Button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
+            >
+              {book ? "עדכון" : "הוספה"}
             </Button>
           </div>
         </form>
