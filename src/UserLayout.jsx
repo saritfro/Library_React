@@ -65,7 +65,7 @@ export default function UserLayout({ children }) {
             החזרות
           </Link>
           <Link
-            to={createPageUrl("/")}
+            to={"/"}
             className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"
             onClick={() => setSidebarOpen(false)}
           >

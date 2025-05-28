@@ -26,11 +26,11 @@ export default function EntryLayout({ children }) {
                 <div >
                     {/* className="flex items-center justify-between p-4" */}
                     <img src='./images/logo.png' alt="לוגו" width="200" />
-                    <p style={{ color: "rgb(147 166 196)" }} className="text-xl font-bold  ">
+                    {/* <p style={{ color: "rgb(147 166 196)" }} className="text-xl font-bold  ">
 
-                        {/* <Library className="w-6 h-6 text-blue-600" /> */}
+                        {/* <Library className="w-6 h-6 text-blue-600" /> }
                         ספריה בקליק
-                    </p>
+                    </p> */}
                     <Button
                         variant="ghost"
                         size="icon"
@@ -57,9 +57,9 @@ export default function EntryLayout({ children }) {
                         onClick={() => setSidebarOpen(false)}
                     >
                         <BookOpen className="w-5 h-5" />
-                        ניהול ספרים
+                        ניהול
                     </Link>
-                    <Link
+                    {/* <Link
                         to={createPageUrl("FormManager")}
                          state="/SettingForm"
                         className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg"
@@ -67,7 +67,7 @@ export default function EntryLayout({ children }) {
                     >
                         <Settings className="w-5 h-5" />
                         הגדרות
-                    </Link>
+                    </Link> */}
                     <Link
                         to={"/"}
                         className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"

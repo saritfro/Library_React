@@ -16,6 +16,8 @@ export default function FormManager() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        // if(formData.password === "1111")
+        //     navigate("/Dashboard");
         axios.post(`http://localhost:8080/manager/login`, {
             password: formData.password
         })
@@ -40,7 +42,7 @@ export default function FormManager() {
             style={{ height: '100vh' }}
         > 
             <div>
-                <label className="text-sm font-medium">ססמה</label>
+                <label className="text-sm font-medium">ססמת מנהל</label>
                 <Input
                     required
                     value={formData.password}
