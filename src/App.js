@@ -10,7 +10,7 @@ import UserReturn from './Pages/UserReturn.jsx'; // ודא שייבאת את ה�
 import SettingForm from './Comp/Settings/SettingForm.jsx';
 
 import Form from './Comp/TryComp/Form.jsx';
-import FormManager from './Comp/TryComp/Formmanager.jsx'; 
+import FormManager from './Comp/TryComp/FormManager.jsx'; 
 function App() {
   return (
     <div className="App">

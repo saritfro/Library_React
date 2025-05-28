@@ -42,6 +42,7 @@ export default function Dashboard() {
       })
       .catch((err) => {
         setError(err.message);
+        console.log(err+"cant load all books")
         setLoading(false);
       });
   }, []);
