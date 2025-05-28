@@ -1,22 +1,9 @@
 import axios from "axios";
-import { useState } from "react";
-// import CategoryInput from './CategoryInput';
-export default function SettingForm() {
- const dict = {
-  bookId: "קוד",
-  bookName: "שם",
-  publishingDate: "תאריך הו'ל",
-  publisher: "הו'ל",
-  author: "סופר",
-  lendingDate: "תאריך השאלה נוכחי",
-  copyNumber: "מס' עותק",
-  category: "קטגוריה",
-  status: "סטטוס",
-  Lender: "בהשאלה אצל"
-};
+import { useState, useEffect } from "react";
+import { useMyContext } from "../../myContext.jsx";
 
- 
-  const [categories, setCategories] = useState([""]);
+export default function SettingForm() {
+  const { fieldsDict, exists, setExists } = useMyContext();
   const [Fields, setFields] = useState([]);
   const [formData, setFormData] = useState({
     loanDuration: "",
@@ -26,9 +13,39 @@ export default function SettingForm() {
     choosedFields: []
   });
 
+  useEffect(() => {
+    const fetchFields = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/settings/getSettings");
+        if (res.data) {
+          setExists(true);
+          setFormData({
+            loanDuration: res.data.loanDuration || "",
+            lateFee: res.data.lateFee || "",
+            subscriptionValidity: res.data.subscriptionValidity || "",
+            categories: res.data.categories || "",
+            choosedFields: res.data.choosedFields || []
+          });
+
+          const selectedHebrewFields = (res.data.choosedFields || []).map(i =>
+            i in fieldsDict ? fieldsDict[i] : i
+          );
+          setFields(selectedHebrewFields);
+        } else {
+          setExists(false);
+        }
+      } catch (e) {
+        console.log("אין הגדרות קיימות, מעבר ליצירה חדשה");
+        setExists(false);
+      }
+    };
+
+    fetchFields();
+  }, [fieldsDict, setExists]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       [name]: value
     }));
@@ -41,10 +58,10 @@ export default function SettingForm() {
     setFields(updatedFields);
 
     const choosedFields = updatedFields.map(
-      (i) => Object.entries(dict).find(([key, value]) => value === i)?.[0]
+      (i) => Object.entries(fieldsDict).find(([key, value]) => value === i)?.[0]
     );
 
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       choosedFields
     }));
@@ -52,47 +69,71 @@ export default function SettingForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Submitting:", formData);
+    const url = exists
+      ? "http://localhost:8080/settings/putSettings"
+      : "http://localhost:8080/settings/postSettings";
 
-    axios
-      .post("http://localhost:8080/settings/postSettings", formData)
-      .then((res) => console.log(res.data))
+    const method = exists ? axios.put : axios.post;
+
+    method(url, formData)
+      .then((res) => {
+        console.log(res.data);
+        setExists(true);
+      })
       .catch((err) => console.error(err));
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <label>
-        subscriptionValidity
-        <input type="number" name="subscriptionValidity" onChange={handleChange} />
-      </label><br/>
-      <label>
-        loanDuration
-        <input type="number" name="loanDuration" onChange={handleChange} />
-      </label><br/>
-      <label>
-        lateFee
-        <input type="number" name="lateFee" onChange={handleChange} />
-      </label><br/>
+        תוקף מנוי
+        <input
+          type="number"
+          name="subscriptionValidity"
+          onChange={handleChange}
+          value={formData.subscriptionValidity}
+        />
+        חודשים
+      </label><br />
 
-      {Object.entries(dict).map(([key, label]) => (
+      <label>
+        משך השאלה
+        <input
+          type="number"
+          name="loanDuration"
+          onChange={handleChange}
+          value={formData.loanDuration}
+        />
+        שבועות
+      </label><br />
+
+      <label>
+        תשלום לאיחור
+        <input
+          type="number"
+          name="lateFee"
+          onChange={handleChange}
+          value={formData.lateFee}
+        />
+        שקלים
+      </label><br />
+
+      <label>בחירת שדות בטבלה</label>
+      {fieldsDict && Object.entries(fieldsDict).map(([key, label]) => (
         <div key={key}>
           <label>
             <input
               type="checkbox"
               name={key}
+              checked={formData.choosedFields.includes(key)}
               onChange={(e) => handleChangeFields(label, e.target.checked)}
             />
             {label}
           </label>
         </div>
       ))}
-{/* <CategoryInput
-  handleChange={handleChange}
-  categories={categories}
-  setCategories={setCategories}
-/> */}
-      <button type="submit">אישור</button>
+
+      <button type="submit">{exists ? "עדכן" : "אישור"}</button>
     </form>
   );
 }

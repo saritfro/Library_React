@@ -13,32 +13,31 @@ import { useMyContext } from "../../myContext.jsx";
 // import "../../CSS/CheckBox.css";  
 
 export default function BookList({ books, handleChecked, setCheckedLoans, checkedLoans, handleDelete }) {
-  const {fieldsDict} = useMyContext();
-  console.log("fieldsDict",fieldsDict)
+  const { fieldsDict } = useMyContext();
+  console.log("fieldsDict", fieldsDict)
   const [overedBookId, setOveredBookId] = useState(false)
   console.log("BookList" + books)
   const [fields, setfields] = useState([])
   const [Hebrewfields, setHebrewfields] = useState([])
 
-  useEffect(() => {
-    const fetchFields = async () => {
-      try {
-        const res = await axios.get("http://localhost:8080/settings/getSettings");
-        if (res.data.choosedFields)
-         {
-          console.log("choosedFields",res.data.choosedFields)
-           setHebrewfields(res.data.choosedFields.map(i =>  i in fieldsDict? fieldsDict[i]:i))
-           setfields(res.data.choosedFields)
-           console.log(fields,"fields")
-         }
-      } catch (e) {
-        console.log(e);
+ useEffect(() => {
+  const fetchFields = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/settings/getSettings");
+      if (res.data.choosedFields) {
+        const filteredFields = res.data.choosedFields.filter(f => f !== "Lender");
+        setfields(filteredFields);
+        setHebrewfields(filteredFields.map(i => i in fieldsDict ? fieldsDict[i] : i));
       }
-    };
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-    fetchFields();
-  }, []);
+  fetchFields();
+}, []);
 
+ console.log(fields, "fields")
 
   return (
     <div className="overflow-x-auto ">
@@ -46,7 +45,7 @@ export default function BookList({ books, handleChecked, setCheckedLoans, checke
         <TableHeader className=" text-white-700">
           <TableRow>
             <TableHead className="text-center w-12"></TableHead>
-            {Hebrewfields.map(i => <TableHead key={i} className="text-center">{i}</TableHead>
+            {Hebrewfields.map(i =>  <TableHead key={i} className="text-center">{i}</TableHead>
             )}
             {/* <TableHead className="text-center w-12"></TableHead> */}
           </TableRow>
@@ -77,8 +76,15 @@ export default function BookList({ books, handleChecked, setCheckedLoans, checke
               </TableCell>
 
 
-              {fields.map(i => <TableCell key={i} className="text-center">{book[i]}</TableCell>
-              )}
+              {fields.map(field => (
+                <TableCell className="font-heebo text-lg text-center" key={field}>
+                  {
+                    field === "publishingDate" && book[field]
+                      ? new Date(book[field]).toLocaleDateString()
+                        : book[field]
+                  }
+                </TableCell>
+              ))}
               {/* <TableCell className="font-heebo text-lg text-center">{new Date(book.publishingDate).toLocaleDateString()}</TableCell> */}
 
             </TableRow>

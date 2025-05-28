@@ -56,6 +56,8 @@ export default function UserDashboard() {
 
 
 const handleChecked = (book) => {
+  console.log("book שנוסף להשאלה:", book);
+
   setCheckedLoans(prev => {
     if (prev.find(Item=>Item==book)) return prev;
     return [...prev, book];

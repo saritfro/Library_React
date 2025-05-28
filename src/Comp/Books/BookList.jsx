@@ -10,10 +10,10 @@ import axios from "axios";
 import { useMyContext } from "../../myContext.jsx";
 
 
-export default function BookList({ books, onEdit, onDelete }) { 
+export default function BookList({ books, onEdit, onDelete }) {
   const [overedBookId, setOveredBookId] = useState(false)
   const [fields, setfields] = useState([])
- 
+
   const { fieldsDict } = useMyContext();
   const [Hebrewfields, setHebrewfields] = useState([])
 
@@ -63,12 +63,19 @@ export default function BookList({ books, onEdit, onDelete }) {
                 />
               </TableCell>
 
-              {fields.map(field => <TableCell className="font-heebo text-lg text-center"> {
-                field === "publishingDate" && book[field]
-                  ? new Date(book[field]).toLocaleDateString()
-                  : book[field]
-              }</TableCell>
-              )}
+              {fields.map(field => (
+                <TableCell className="font-heebo text-lg text-center" key={field}>
+                  {
+                    field === "publishingDate" && book[field]
+                      ? new Date(book[field]).toLocaleDateString()
+                      : typeof book[field] === "object" && book[field] !== null
+                        ? book[field].firstName
+                        : book[field]
+                  }
+                </TableCell>
+              ))}
+
+
               <TableCell className="font-heebo text-lg text-center">
                 <Button
                   variant="ghost"
