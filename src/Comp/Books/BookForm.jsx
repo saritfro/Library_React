@@ -41,7 +41,6 @@ export default function BookForm({ book, onSubmit, onCancel }) {
             {book ? "עריכת ספר" : "הוספת ספר חדש"}
           </DialogTitle>
         </DialogHeader>
-
         <form onSubmit={handleSubmit} className="space-y-5 mt-4">
           {/* שם הספר */}
           <div className="space-y-1">
@@ -55,7 +54,6 @@ export default function BookForm({ book, onSubmit, onCancel }) {
               }
             />
           </div>
-
           {/* שם הסופר */}
           <div className="space-y-1">
             <label>שם הסופר</label>
@@ -68,7 +66,6 @@ export default function BookForm({ book, onSubmit, onCancel }) {
               }
             />
           </div>
-
           {/* הוצאה לאור */}
           <div className="space-y-1">
             <label>הוצאה לאור</label>
@@ -80,7 +77,6 @@ export default function BookForm({ book, onSubmit, onCancel }) {
               }
             />
           </div>
-
           {/* מספר עותקים */}
           <div className="space-y-1">
             <label>מספר עותקים</label>
@@ -93,7 +89,6 @@ export default function BookForm({ book, onSubmit, onCancel }) {
               }
             />
           </div>
-
           {/* תאריך פרסום */}
           <div className="space-y-1">
             <label>תאריך פרסום</label>
@@ -108,7 +103,6 @@ export default function BookForm({ book, onSubmit, onCancel }) {
               }
             />
           </div>
-
           {/* קטגוריה */}
           <div className="space-y-1">
             <label>קטגוריה</label>
@@ -122,23 +116,16 @@ export default function BookForm({ book, onSubmit, onCancel }) {
                 <SelectValue placeholder="בחר קטגוריה" />
               </SelectTrigger>
               <SelectContent>
-                {[
-                  "אנגלית",
-                  "פעוטות",
-                  "ילדים",
-                  "נוער",
-                  "מבוגר",
-                  "שואה",
-                  "עיוני",
-                ].map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category}
-                  </SelectItem>
-                ))}
+                {["אנגלית", "פעוטות", "ילדים", "נוער", "מבוגר", "שואה", "עיוני"].map(
+                  (category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  )
+                )}
               </SelectContent>
             </Select>
           </div>
-
           {/* כפתורים */}
           <div className="flex justify-end gap-4 pt-4">
             <Button
