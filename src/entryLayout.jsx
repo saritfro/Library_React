@@ -43,12 +43,12 @@ export default function EntryLayout({ children }) {
                 <nav className=" px-4 py-2">
 
                     <Link
-                        to={createPageUrl("Loans")}
+                        to="/Users"
                         className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"
                         onClick={() => setSidebarOpen(false)}
                     >
                         <Users className="w-5 h-5" />
-                        ניהול מנויים
+                        ניהול משתמשים
                     </Link>
                     <Link
                         to={createPageUrl("FormManager")}
@@ -61,13 +61,14 @@ export default function EntryLayout({ children }) {
                     </Link>
                     <Link
                         to={createPageUrl("FormManager")}
-                         state="/SettingForm"
+                        state="/SettingForm"
                         className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg"
                         onClick={() => setSidebarOpen(false)}
                     >
                         <Settings className="w-5 h-5" />
                         הגדרות
                     </Link>
+      
                     <Link
                         to={"/"}
                         className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"
