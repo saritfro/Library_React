@@ -12,7 +12,7 @@ export function createPageUrl(pageName) {
     case 'Loans':
       return '/loans';
     case 'Settings':
-      return '/settings';
+      return '/SettingForm';
     default:
       return '/';
   }

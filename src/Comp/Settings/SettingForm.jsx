@@ -116,7 +116,6 @@ export default function SettingForm() {
               value={formData.subscriptionValidity}
             />
           </div>
-
           <div>
             <label>משך השאלה (בשבועות)</label>
             <Input
@@ -126,7 +125,6 @@ export default function SettingForm() {
               value={formData.loanDuration}
             />
           </div>
-
           <div>
             <label>תשלום לאיחור (בשקלים)</label>
             <Input
@@ -136,7 +134,6 @@ export default function SettingForm() {
               value={formData.lateFee}
             />
           </div>
-
           <div>
             <label>סיסמת מנהל</label>
             <Input
@@ -146,7 +143,6 @@ export default function SettingForm() {
               value={formData.managerPass}
             />
           </div>
-
           <div>
             <label>מספר ספרים למנוי</label>
             <Input
@@ -156,7 +152,6 @@ export default function SettingForm() {
               value={formData.numOfBookTosubscription}
             />
           </div>
-
           <div>
             <label className="block mb-2">בחירת שדות להצגה בטבלה:</label>
             <div className="grid grid-cols-2 gap-2">
@@ -171,7 +166,6 @@ export default function SettingForm() {
               ))}
             </div>
           </div>
-
           <CardFooter className="flex justify-end pt-4">
             <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
               {exists ? "עדכן" : "אישור"}

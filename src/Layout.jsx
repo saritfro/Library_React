@@ -47,24 +47,24 @@ export default function Layout({ children }) {
             onClick={() => setSidebarOpen(false)}
           >
             <BookOpen className="w-5 h-5" />
-            ספרים
+            ניהול ספרים
           </Link>
-          <Link
+          {/* <Link
             to={createPageUrl("Loans")}
             className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"
             onClick={() => setSidebarOpen(false)}
           >
             <Users className="w-5 h-5" />
-            השאלות
-          </Link>
-          {/* <Link
-            to={createPageUrl("Settings")}
+            ניהול מנויים
+          </Link> */}
+          <Link
+            to={"/SettingForm"}
             className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg"
             onClick={() => setSidebarOpen(false)}
           >
             <Settings className="w-5 h-5" />
             הגדרות
-          </Link> */}
+          </Link>
           <Link
             to={"/"}
             className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"

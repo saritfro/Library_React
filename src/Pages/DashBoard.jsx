@@ -52,7 +52,7 @@ export default function Dashboard() {
     try {
       if (editingBook) {
         const res = await axios.put(
-          `http://localhost:8080/manager/putBook/${editingBook.bookId}`,
+          `http://localhost:8080/books/putBook/${editingBook.bookId}`,
           bookData
         );
         const updatedBooks = books.map(book =>

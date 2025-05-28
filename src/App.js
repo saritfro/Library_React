@@ -46,7 +46,7 @@ function App() {
         <Route path="/Users" element={<UserLayout><UsersDashBoard /></UserLayout>} />
 
         <Route path="/UserReturn" element={<UserLayout><UserReturn /></UserLayout>} />
-        <Route path="/SettingForm" element={<UserLayout><SettingForm /></UserLayout>} />
+        <Route path="/SettingForm" element={<Layout><SettingForm /></Layout>} />
 
         {/* דף הבית ותחומים נוספים */}
         <Route path="/Dashboard" element={<Layout><Dashboard /></Layout>} />
@@ -54,7 +54,7 @@ function App() {
 
         {/* TryComp */}
         <Route path="/" element={<EntryLayout><Form /></EntryLayout>} />
-        <Route path="/FormManager" element={<Layout><FormManager /></Layout>} />
+        <Route path="/FormManager" element={<FormManager/>} />
       </Routes>
     </div>
   );

@@ -64,15 +64,7 @@ export default function UserLayout({ children }) {
             <ArrowDownToLine className="w-5 h-5" />
             החזרות
           </Link>
-            <Link
-            to={"/Users"}
-            className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"
-            onClick={() => setSidebarOpen(false)}
-          >
-            <CornerDownLeft className="w-5 h-5" />
-
-            פרטי משתמש
-          </Link>
+          
           <Link
             to={"/"}
             className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"

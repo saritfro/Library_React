@@ -11,53 +11,38 @@ export default function FormManager() {
       const location = useLocation();
     const navigate = useNavigate();
     const [formData, setFormData] = React.useState({
-        userName: "",
         password: ""
     });
 
     const handleSubmit = (e) => {
-        //צריך לטפל בהתחברות עם נוד+מונגו
         e.preventDefault();
-        if (formData.userName === "מנהלת"&&formData.password=== "8520") {
-            navigate(location.state);
-        } else {
-            alert("שם משתמש או ססמה לא נכונים");
-        }
-    };
-    // const handleSubmit = async(e) => {
-    //     e.preventDefault();
-    //     try {
-    //         const response = await axios.get(`http://localhost:8080/getUser/${formData.passwordOrPhon}`);
-    //         const user = response.data;
+        // if(formData.password === "1111")
+        //     navigate("/Dashboard");
+        axios.post(`http://localhost:8080/manager/login`, {
+            password: formData.password
+        })
+        .then((response) => {
+            const { massage, token } = response.data;
+            localStorage.setItem("token", token);
+            console.log(massage);
+            navigate("/Dashboard");
+        })
+        .catch((error) => {
+            console.error("Error fetching manager:", error.response ? error.response.data : error.message);
+            alert("אין הרשאת גישה");
 
-    //         if (user && formData.userName === user.userName) {
-    //             navigate("/FormManager");
-    //         } else {
-    //             alert("שם משתמש או ססמה לא נכונים");
-    //         }
-    //     } catch (error) {
-    //         console.error('Error fetching user:', error.response ? error.response.data : error.message);
-    //         alert("אירעה שגיאה במהלך התחברות");
-    //     }
-    // };
+        }
+        );
+    }
 
     return (
         <form
             onSubmit={handleSubmit}
             className="space-y-4 w-96 mx-auto flex flex-col justify-center"
             style={{ height: '100vh' }}
-        >
-
+        > 
             <div>
-                <label className="text-sm font-medium">שם משתמש</label>
-                <Input
-                    required
-                    value={formData.userName}
-                    onChange={(e) => setFormData({ ...formData, userName: e.target.value })}
-                />
-            </div>
-            <div>
-                <label className="text-sm font-medium">ססמה</label>
+                <label className="text-sm font-medium">ססמת מנהל</label>
                 <Input
                     required
                     value={formData.password}
