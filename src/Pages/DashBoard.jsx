@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
@@ -20,10 +20,10 @@ import "primeicons/primeicons.css";
 
 export default function Dashboard() {
   const toast = useRef(null);
-//צריך להפוך לגלובלי
+  //צריך להפוך לגלובלי
   const [books, setBooks] = useState([]);
- 
-  //
+
+  
   const [showForm, setShowForm] = useState(false);
   const [editingBook, setEditingBook] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -43,6 +43,7 @@ export default function Dashboard() {
       .catch((err) => {
         setError(err.message);
         setLoading(false);
+        console.error("MyError fetching books:", err);
       });
   }, []);
 
@@ -144,9 +145,10 @@ export default function Dashboard() {
     <div className="max-w-6xl mx-auto p-4">
       {/* כרטיס עם כפתור הוספה וייבוא */}
       <div
-     style={{
-      backgroundImage: `url('/images/books.jpg')`}}></div>
-      <Card className="w-full  text-white rounded-xl shadow p-4 mb-6"  style={{ backgroundColor: "rgb(102 130 173 / 68%)" }}>
+        style={{
+          backgroundImage: `url('/images/books.jpg')`
+        }}></div>
+      <Card className="w-full  text-white rounded-xl shadow p-4 mb-6" style={{ backgroundColor: "rgb(102 130 173 / 68%)" }}>
         <CardContent className="flex flex-col md:flex-row  items-center gap-4">
 
           {/* כפתור הוספת ספר חדש */}

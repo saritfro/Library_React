@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "./components/Utils";
-import { Library, BookOpen, Users, Settings, Menu, X } from "lucide-react";
+import { CornerDownLeft,Library, BookOpen, Users, Settings, Menu, X } from "lucide-react";
 import { Button } from "./components/ui/button";
 import { cn } from "./lib/Utils";
 
@@ -12,7 +12,7 @@ export default function Layout({ children }) {
     <div className="flex h-screen bg-gray-100" dir="rtl">
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
@@ -21,13 +21,13 @@ export default function Layout({ children }) {
       {/* Sidebar */}
       <aside style={{ backgroundColor: "rgb(225 134 131 / 45%)" }} className={cn(
         "fixed top-0 right-0 z-50 h-full w-64 bg-[#83B9E1] border-l transform transition-transform duration-200 ease-in-out md:relative md:translate-x-0",
-        sidebarOpen ? "translate-x-0" : "translate-x-full"  
+        sidebarOpen ? "translate-x-0" : "translate-x-full"
       )}>
         <div >
-        {/* className="flex items-center justify-between p-4" */}
-           <img src='./images/logo.png'alt="לוגו" width="200" />
+          {/* className="flex items-center justify-between p-4" */}
+          <img src='./images/logo.png' alt="לוגו" width="200" />
           <p style={{ color: "rgb(147 166 196)" }} className="text-xl font-bold  ">
-         
+
             {/* <Library className="w-6 h-6 text-blue-600" /> */}
             ניהול ספרייה
           </p>
@@ -65,6 +65,15 @@ export default function Layout({ children }) {
             <Settings className="w-5 h-5" />
             הגדרות
           </Link> */}
+          <Link
+            to={createPageUrl("/")}
+            className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <CornerDownLeft className="w-5 h-5" />
+
+            חזרה לעמוד ראשי
+          </Link>
         </nav>
       </aside>
 

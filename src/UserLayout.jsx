@@ -5,6 +5,7 @@ import {
   Library,
   ArrowUpFromLine,
   ArrowDownToLine,
+  CornerDownLeft,
   Settings,
   Menu,
   X
@@ -52,6 +53,7 @@ export default function UserLayout({ children }) {
             onClick={() => setSidebarOpen(false)}
           >
             <ArrowUpFromLine className="w-5 h-5" />
+
             השאלות
           </Link>
           <Link
@@ -61,6 +63,15 @@ export default function UserLayout({ children }) {
           >
             <ArrowDownToLine className="w-5 h-5" />
             החזרות
+          </Link>
+          <Link
+            to={createPageUrl("/")}
+            className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <CornerDownLeft className="w-5 h-5" />
+
+            חזרה לעמוד ראשי
           </Link>
         </nav>
       </aside>

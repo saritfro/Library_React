@@ -43,7 +43,7 @@ export default function Form() {
         <form
             onSubmit={handleSubmit}
             className="space-y-4 w-96 mx-auto flex flex-col justify-center"
-            style={{ height: '100vh' }}
+            style={{ height: '95vh' }}
         >
 
             <div>
@@ -71,7 +71,7 @@ export default function Form() {
                     className="bg-blue-600 hover:bg-blue-700 mx-auto block"
                     style={{ display: 'block', margin: '0 auto' }}
                 >
-                    אישור / כניסה למערכת
+                    התחברות
                 </Button>
             </div>
         </form>
