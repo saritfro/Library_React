@@ -1,7 +1,6 @@
 //להוסיף אקצס שיקבל את כל השדות ועליו לעשות מפ וליצור tablecell
 import React, { useState, useEffect } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table';
-import { Badge } from '../../components/ui/badge';
 import { Button } from '../../components/ui/button';
 import { Pencil } from "lucide-react";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -31,6 +30,9 @@ export default function BookList({ books, onEdit, onDelete }) {
 
     fetchFields();
   }, []);
+
+  useEffect(() => axios.get("http://localhost:8080/books/getBooksFields")//לשנות לשליפת השדות הנבחרים 
+    .then(res => { setfields(res.data); console.log(res.data) }).catch(e => console.log(e)), [])
   return (
     <div className="overflow-x-auto ">
       <Table className="w-full table-auto border border-gray-200 shadow-sm rounded-lg overflow-hidden">

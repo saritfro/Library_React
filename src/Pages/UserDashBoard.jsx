@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
-import * as XLSX from "xlsx";
-import { Button } from "../components/ui/button";
+import React, { useState, useEffect } from "react";
+// import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import BookFilters from "../Comp/UserLoans/BookFilters";
 import BookList from "../Comp/UserLoans/BookList";
-import { Plus, Search } from "lucide-react";
+import {Search } from "lucide-react";
 import axios from "axios";
 import { Toast } from "primereact/toast";
 import { FileUpload } from "primereact/fileupload";
@@ -59,7 +58,7 @@ const handleChecked = (book) => {
   console.log("book שנוסף להשאלה:", book);
 
   setCheckedLoans(prev => {
-    if (prev.find(Item=>Item==book)) return prev;
+    if (prev.find(Item=>Item===book)) return prev;
     return [...prev, book];
   });
 };
