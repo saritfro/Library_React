@@ -1,6 +1,19 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useMyContext } from "../../myContext.jsx";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter
+} from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+// import {
+//   label
+// } from "../../components/ui/label";
+import { Checkbox } from "../../components/ui/checkbox";
 
 export default function SettingForm() {
   const { fieldsDict, exists, setExists } = useMyContext();
@@ -10,7 +23,9 @@ export default function SettingForm() {
     lateFee: "",
     subscriptionValidity: "",
     categories: "",
-    choosedFields: []
+    choosedFields: [],
+    managerPass: "",
+    numOfBookTosubscription: ""
   });
 
   useEffect(() => {
@@ -24,7 +39,9 @@ export default function SettingForm() {
             lateFee: res.data.lateFee || "",
             subscriptionValidity: res.data.subscriptionValidity || "",
             categories: res.data.categories || "",
-            choosedFields: res.data.choosedFields || []
+            choosedFields: res.data.choosedFields || [],
+            managerPass: res.data.managerPass || "",
+            numOfBookTosubscription: res.data.numOfBookTosubscription || ""
           });
 
           const selectedHebrewFields = (res.data.choosedFields || []).map(i =>
@@ -84,56 +101,84 @@ export default function SettingForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        תוקף מנוי
-        <input
-          type="number"
-          name="subscriptionValidity"
-          onChange={handleChange}
-          value={formData.subscriptionValidity}
-        />
-        חודשים
-      </label><br />
-
-      <label>
-        משך השאלה
-        <input
-          type="number"
-          name="loanDuration"
-          onChange={handleChange}
-          value={formData.loanDuration}
-        />
-        שבועות
-      </label><br />
-
-      <label>
-        תשלום לאיחור
-        <input
-          type="number"
-          name="lateFee"
-          onChange={handleChange}
-          value={formData.lateFee}
-        />
-        שקלים
-      </label><br />
-
-      <label>בחירת שדות בטבלה</label>
-      {fieldsDict && Object.entries(fieldsDict).map(([key, label]) => (
-        <div key={key}>
-          <label>
-            <input
-              type="checkbox"
-              name={key}
-              checked={formData.choosedFields.includes(key)}
-              onChange={(e) => handleChangeFields(label, e.target.checked)}
+    <Card className="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-xl rounded-2xl">
+      <CardHeader>
+        <CardTitle className="text-2xl font-bold">הגדרות מערכת</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label>תוקף מנוי (בחודשים)</label>
+            <Input
+              type="number"
+              name="subscriptionValidity"
+              onChange={handleChange}
+              value={formData.subscriptionValidity}
             />
-            {label}
-          </label>
-        </div>
-      ))}
+          </div>
 
-      <button type="submit">{exists ? "עדכן" : "אישור"}</button>
-    </form>
+          <div>
+            <label>משך השאלה (בשבועות)</label>
+            <Input
+              type="number"
+              name="loanDuration"
+              onChange={handleChange}
+              value={formData.loanDuration}
+            />
+          </div>
+
+          <div>
+            <label>תשלום לאיחור (בשקלים)</label>
+            <Input
+              type="number"
+              name="lateFee"
+              onChange={handleChange}
+              value={formData.lateFee}
+            />
+          </div>
+
+          <div>
+            <label>סיסמת מנהל</label>
+            <Input
+              type="text"
+              name="managerPass"
+              onChange={handleChange}
+              value={formData.managerPass}
+            />
+          </div>
+
+          <div>
+            <label>מספר ספרים למנוי</label>
+            <Input
+              type="number"
+              name="numOfBookTosubscription"
+              onChange={handleChange}
+              value={formData.numOfBookTosubscription}
+            />
+          </div>
+
+          <div>
+            <label className="block mb-2">בחירת שדות להצגה בטבלה:</label>
+            <div className="grid grid-cols-2 gap-2">
+              {fieldsDict && Object.entries(fieldsDict).map(([key, label]) => (
+                <label key={key} className="flex items-center space-x-2">
+                  <Checkbox
+                    checked={formData.choosedFields.includes(key)}
+                    onCheckedChange={(checked) => handleChangeFields(label, checked)}
+                  />
+                  <span>{label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <CardFooter className="flex justify-end pt-4">
+            <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+              {exists ? "עדכן" : "אישור"}
+            </Button>
+          </CardFooter>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

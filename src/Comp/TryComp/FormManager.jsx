@@ -4,9 +4,11 @@ import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useLocation } from 'react-router-dom';
 
 
 export default function FormManager() {
+      const location = useLocation();
     const navigate = useNavigate();
     const [formData, setFormData] = React.useState({
         password: ""
@@ -26,6 +28,7 @@ export default function FormManager() {
         .catch((error) => {
             console.error("Error fetching user:", error.response ? error.response.data : error.message);
             alert("אין הרשאת גישה");
+
         }
         );
     }
@@ -45,7 +48,6 @@ export default function FormManager() {
                 />
             </div>
             <div className="flex justify-end gap-3 pt-4">
-                
                 <Button
                     type="submit"
                     className="bg-blue-600 hover:bg-blue-700 mx-auto block"
