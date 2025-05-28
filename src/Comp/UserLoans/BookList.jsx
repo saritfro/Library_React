@@ -68,8 +68,19 @@ export default function BookList({ books, handleChecked, setCheckedLoans, checke
                   }} />
               </TableCell>
 
-               {fields.map(i=>   <TableCell className="font-heebo text-lg text-center">{book[i]}</TableCell>)}
+              {fields.map(field => (
+               
 
+                <TableCell className="font-heebo text-lg text-center" key={field}>
+                  {
+                    field === "publishingDate" && book[field]
+                      ? new Date(book[field]).toLocaleDateString()
+                      : typeof book[field] === "object" && book[field] !== null
+                        ? book[field].firstName
+                        : book[field]
+                  }
+                </TableCell> 
+              ))}
               {/* <TableCell className="font-heebo text-lg text-center">{new Date(book.publishingDate).toLocaleDateString()}</TableCell> */}
 
             </TableRow>

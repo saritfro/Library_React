@@ -16,10 +16,11 @@ export default function MyProvider({ children }) {
     category: "קטגוריה",
     status: "סטטוס",
     Lender: "משאיל"
-  }); // המשתנה הגלובלי
+  }); 
+    const [exists, setExists] = useState(false);
 
   return (
-    <myContext.Provider value={{ fieldsDict, setfieldsDict }}>
+    <myContext.Provider value={{ fieldsDict, setfieldsDict ,exists ,setExists}}>
 {children}    </myContext.Provider>
   );
 }

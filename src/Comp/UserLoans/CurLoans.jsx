@@ -12,7 +12,8 @@ const handleSubmit = () => {
   console.log(" סבמיט👍👍👍")
   Promise.all(
     checkedLoans.map(i => {
-      console.log("להשאלה"+i.bookName+i.bookId+" "+userId);
+      if(i.Lender)
+      console.log("👌👌👌👌👌להשאלה"+i.bookName+" "+i.Lender.firstName+" ");
       return axios.put(`http://localhost:8080/users/BorrowUsersBooks/${userId}/${i._id}`)
         .then(response => {
           console.log(response.data);

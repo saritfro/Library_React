@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {useRef, useState, useEffect } from "react";
 // import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import BookFilters from "../Comp/UserLoans/BookFilters";
@@ -55,6 +55,8 @@ export default function UserDashboard() {
 
 
 const handleChecked = (book) => {
+  console.log("book שנוסף להשאלה:", book);
+
   setCheckedLoans(prev => {
     if (prev.find(Item=>Item===book)) return prev;
     return [...prev, book];
