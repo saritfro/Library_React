@@ -5,10 +5,11 @@ import { Input } from '../../components/ui/input';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 
 export default function FormManager() {
-      const location = useLocation();
+    const location = useLocation();
     const navigate = useNavigate();
     const [formData, setFormData] = React.useState({
         password: ""
@@ -18,21 +19,25 @@ export default function FormManager() {
         e.preventDefault();
         // if(formData.password === "1111")
         //     navigate("/Dashboard");
-        axios.post(`http://localhost:8080/manager/login`, {
-            password: formData.password
-        })
-        .then((response) => {
-            const { massage, token } = response.data;
-            localStorage.setItem("token", token);
-            console.log(massage);
-            navigate("/Dashboard");
-        })
-        .catch((error) => {
-            console.error("Error fetching manager:", error.response ? error.response.data : error.message);
-            alert("אין הרשאת גישה");
-
-        }
-        );
+        axios.post(`http://localhost:8080/manager/login?password=${formData.password}`)
+            .then((response) => {
+                const { massage, token } = response.data;
+                localStorage.setItem("token", token);
+                console.log(massage);
+                navigate("/Dashboard");
+            })
+            .catch((error) => {
+                console.error("Error fetching manager:", error.response ? error.response.data : error.message);
+                console.error(error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "No access permission!",
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: 'blue',
+                })
+            }
+            );
     }
 
     return (
@@ -40,7 +45,7 @@ export default function FormManager() {
             onSubmit={handleSubmit}
             className="space-y-4 w-96 mx-auto flex flex-col justify-center"
             style={{ height: '100vh' }}
-        > 
+        >
             <div>
                 <label className="text-sm font-medium">ססמת מנהל</label>
                 <Input

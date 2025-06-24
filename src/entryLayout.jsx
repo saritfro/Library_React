@@ -10,7 +10,6 @@ export default function EntryLayout({ children }) {
 
     return (
         <div className="flex h-screen bg-gray-100" dir="rtl">
-            {/* Mobile sidebar backdrop */}
             {sidebarOpen && (
                 <div
                     className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
@@ -18,19 +17,12 @@ export default function EntryLayout({ children }) {
                 />
             )}
 
-            {/* Sidebar */}
             <aside style={{ backgroundColor: "rgb(225 134 131 / 45%)" }} className={cn(
                 "fixed top-0 right-0 z-50 h-full w-64 bg-[#83B9E1] border-l transform transition-transform duration-200 ease-in-out md:relative md:translate-x-0",
                 sidebarOpen ? "translate-x-0" : "translate-x-full"
             )}>
                 <div >
-                    {/* className="flex items-center justify-between p-4" */}
                     <img src='./images/logo.png' alt="לוגו" width="200" />
-                    {/* <p style={{ color: "rgb(147 166 196)" }} className="text-xl font-bold  ">
-
-                        {/* <Library className="w-6 h-6 text-blue-600" /> }
-                        ספריה בקליק
-                    </p> */}
                     <Button
                         variant="ghost"
                         size="icon"
@@ -51,7 +43,7 @@ export default function EntryLayout({ children }) {
                         ניהול משתמשים
                     </Link>
                     <Link
-                        to={createPageUrl("FormManager")}
+                        to={"/FormManager"}
                         state="/DashBoard"
                         className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"
                         onClick={() => setSidebarOpen(false)}
@@ -59,15 +51,6 @@ export default function EntryLayout({ children }) {
                         <BookOpen className="w-5 h-5" />
                         ניהול
                     </Link>
-                    {/* <Link
-                        to={createPageUrl("FormManager")}
-                        state="/SettingForm"
-                        className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg"
-                        onClick={() => setSidebarOpen(false)}
-                    >
-                        <Settings className="w-5 h-5" />
-                        הגדרות
-                    </Link> */}
                     <Link
                         to={"/"}
                         className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 rounded-lg"
@@ -80,9 +63,7 @@ export default function EntryLayout({ children }) {
                 </nav>
             </aside>
 
-            {/* Main content */}
             <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
-                {/* Mobile header */}
                 <header className="md:hidden bg-white border-b px-4 py-3">
                     <Button
                         variant="ghost"
@@ -94,7 +75,6 @@ export default function EntryLayout({ children }) {
                     </Button>
                 </header>
 
-                {/* Main content area */}
                 <main className="flex-1 overflow-auto p-4">
                     {children}
                 </main>

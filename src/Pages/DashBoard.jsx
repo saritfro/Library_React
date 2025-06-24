@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import * as XLSX from "xlsx";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import BookFilters from "../Comp/Books/BookFilters";
@@ -10,6 +11,7 @@ import axios from "axios";
 import { Toast } from "primereact/toast";
 import { FileUpload } from "primereact/fileupload";
 import { Card, CardContent } from "../components/ui/card";
+import Swal from 'sweetalert2';
 
 
 // import CardWithForm from './Comp/TryComp/Card.jsx'; // דוגמה לשימוש ברכיב כרטיס עם טופס
@@ -20,10 +22,11 @@ import "primeicons/primeicons.css";
 
 export default function Dashboard() {
   const toast = useRef(null);
+  const navigate=useNavigate();
   //צריך להפוך לגלובלי
   const [books, setBooks] = useState([]);
 
-  
+
   const [showForm, setShowForm] = useState(false);
   const [editingBook, setEditingBook] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -42,7 +45,7 @@ export default function Dashboard() {
       })
       .catch((err) => {
         setError(err.message);
-        console.log(err+"cant load all books")
+        console.log(err + "cant load all books")
         setLoading(false);
         console.error("MyError fetching books:", err);
       });
@@ -52,9 +55,26 @@ export default function Dashboard() {
     try {
       if (editingBook) {
         const res = await axios.put(
-          `http://localhost:8080/books/putBook/${editingBook.bookId}`,
-          bookData
-        );
+          `http://localhost:8080/manager/putBook/${editingBook.bookId}`,
+          bookData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+          }
+        ).catch((err) =>{
+          console.error(err);
+          Swal.fire({
+           icon: "error",
+           title: "Oops...",
+           text: "No access permission!",
+           confirmButtonText: 'OK',
+           confirmButtonColor:'blue',
+         })
+         .then(() => {;
+         navigate("/FormManager");})
+        
+       });
         const updatedBooks = books.map(book =>
           book.bookId === editingBook.bookId ? res.data : book
         );
@@ -63,7 +83,12 @@ export default function Dashboard() {
         const res = await axios.post("http://localhost:8080/books/postBook", {
           publishingDate: Date.now(),
           ...bookData
-        });
+        },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+          },);
         setBooks([...books, res.data]);
       }
     } catch (error) {
@@ -81,13 +106,26 @@ export default function Dashboard() {
 
   const handleDelete = (book) => {
     axios
-      .delete(`http://localhost:8080/books/deleteBook/${book._id}`)
+      .delete(`http://localhost:8080/manager/deleteBook/${book._id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      })
       .then((response) => {
         setBooks(response.data);
       })
-      .catch((err) => {
-        setError(err.message);
-      });
+      .catch((err) =>{
+        console.error(err);
+        Swal.fire({
+         icon: "error",
+         title: "Oops...",
+         text: "No access permission!",
+         confirmButtonText: 'OK',
+         confirmButtonColor:'blue',
+       })
+       .then(() => {;
+       navigate("/FormManager");})
+     });
   };
 
   const filteredBooks = books.filter((book) => {
@@ -129,7 +167,11 @@ export default function Dashboard() {
 
         for (let d of json) {
           axios
-            .post("http://localhost:8080/books/postBook", d)
+            .post("http://localhost:8080/books/postBook", d,{
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+              }
+            })
             .then((res) => console.log(res))
             .catch((err) => console.error("Failed to post to server:", err));
         }

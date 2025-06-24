@@ -47,7 +47,7 @@ export default function BookForm({ book, onSubmit, onCancel }) {
             <label>שם הספר</label>
             <Input
               required
-              placeholder="לדוגמה: הארי פוטר"
+              placeholder="לדוגמה: ילדת חלומות"
               value={formData.bookName}
               onChange={(e) =>
                 setFormData({ ...formData, bookName: e.target.value })
@@ -59,7 +59,7 @@ export default function BookForm({ book, onSubmit, onCancel }) {
             <label>שם הסופר</label>
             <Input
               required
-              placeholder="לדוגמה: ג'יי קיי רולינג"
+              placeholder="לדוגמה: אסתר קווין"
               value={formData.author}
               onChange={(e) =>
                 setFormData({ ...formData, author: e.target.value })
@@ -70,7 +70,7 @@ export default function BookForm({ book, onSubmit, onCancel }) {
           <div className="space-y-1">
             <label>הוצאה לאור</label>
             <Input
-              placeholder="לדוגמה: ידיעות ספרים"
+              placeholder="לדוגמה: יפה נוף"
               value={formData.publisher}
               onChange={(e) =>
                 setFormData({ ...formData, publisher: e.target.value })
@@ -81,6 +81,7 @@ export default function BookForm({ book, onSubmit, onCancel }) {
           <div className="space-y-1">
             <label>מספר עותקים</label>
             <Input
+              required
               type="number"
               placeholder="לדוגמה: 5"
               value={formData.copiesNum}
@@ -141,7 +142,7 @@ export default function BookForm({ book, onSubmit, onCancel }) {
               className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
             >
               {book ? "עדכון" : "הוספה"}
-            </Button>
+            </Button>ג
           </div>
         </form>
       </DialogContent>

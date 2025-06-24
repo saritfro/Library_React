@@ -15,7 +15,7 @@ export default function UserList({ Users, onEdit, onDelete }) {
 
   const { fieldsDict } = useMyContext();
   const [Hebrewfields, setHebrewfields] = useState([])
-console.log("users"+Users)
+  console.log("users" + Users)
 
   return (
     <div className="overflow-x-auto ">
@@ -23,10 +23,10 @@ console.log("users"+Users)
         <TableHeader className=" text-white-700">
           <TableRow>
             <TableHead className="text-center w-12"></TableHead>
-             <TableHead className="text-center">קוד</TableHead>
-             <TableHead className="text-center">שם</TableHead>
-             <TableHead className="text-center">משפחה</TableHead>
-             <TableHead className="text-center">מס' מנויים</TableHead>
+            <TableHead className="text-center">קוד</TableHead>
+            <TableHead className="text-center">שם</TableHead>
+            <TableHead className="text-center">משפחה</TableHead>
+            <TableHead className="text-center">מס' מנויים</TableHead>
             <TableHead className="text-center w-20"></TableHead>
           </TableRow>
         </TableHeader>
@@ -52,11 +52,11 @@ console.log("users"+Users)
                 />
               </TableCell>
 
-                <TableCell className="font-heebo text-lg text-center" >{User.userId}</TableCell>
-                <TableCell className="font-heebo text-lg text-center" >{User.firstName}</TableCell>
-                <TableCell className="font-heebo text-lg text-center" >{User.lastName}</TableCell>
-                <TableCell className="font-heebo text-lg text-center" >{User.subscriptionQuantity}</TableCell>
-            
+              <TableCell className="font-heebo text-lg text-center" >{User.userId}</TableCell>
+              <TableCell className="font-heebo text-lg text-center" >{User.firstName}</TableCell>
+              <TableCell className="font-heebo text-lg text-center" >{User.lastName}</TableCell>
+              <TableCell className="font-heebo text-lg text-center" >{User.subscriptionQuantity}</TableCell>
+
               <TableCell className="font-heebo text-lg text-center">
                 <Button
                   variant="ghost"

@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import {  useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 import { useMyContext } from "../../myContext.jsx";
 import {
   Card,
@@ -14,8 +16,8 @@ import { Input } from "../../components/ui/input";
 //   label
 // } from "../../components/ui/label";
 import { Checkbox } from "../../components/ui/checkbox";
-
 export default function SettingForm() {
+  const navigate=useNavigate();
   const { fieldsDict, exists, setExists } = useMyContext();
   const [Fields, setFields] = useState([]);
   const [formData, setFormData] = useState({
@@ -31,6 +33,7 @@ export default function SettingForm() {
   useEffect(() => {
     const fetchFields = async () => {
       try {
+        // localStorage.clear();
         const res = await axios.get("http://localhost:8080/settings/getSettings");
         if (res.data) {
           setExists(true);
@@ -87,17 +90,31 @@ export default function SettingForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const url = exists
-      ? "http://localhost:8080/settings/putSettings"
-      : "http://localhost:8080/settings/postSettings";
+      ? "http://localhost:8080/manager/putSettings"
+      : "http://localhost:8080/manager/postSettings";
 
+    const token = localStorage.getItem("token");
     const method = exists ? axios.put : axios.post;
 
-    method(url, formData)
+    method(url, formData,{
+      headers: {'Authorization': `Bearer ${token}` 
+  }})
       .then((res) => {
         console.log(res.data);
         setExists(true);
       })
-      .catch((err) => console.error(err));
+      .catch((err) =>{
+         console.error(err);
+         Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "No access permission!",
+          confirmButtonText: 'OK',
+          confirmButtonColor:'blue',
+        })
+        .then(() => {;
+        navigate("/FormManager");})
+      });
   };
 
   return (

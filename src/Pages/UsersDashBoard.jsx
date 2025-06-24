@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import * as XLSX from "xlsx";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-import UserFilters from "../Comp/Users/UserFilters";
 import UserForm from "../Comp/Users/UserForm";
 import UserList from "../Comp/Users/UserList";
 import { Plus, Search } from "lucide-react";
@@ -10,17 +10,14 @@ import axios from "axios";
 import { Toast } from "primereact/toast";
 import { FileUpload } from "primereact/fileupload";
 import { Card, CardContent } from "../components/ui/card";
-
-
-// import CardWithForm from './Comp/TryComp/Card.jsx'; // דוגמה לשימוש ברכיב כרטיס עם טופס
-
-import "primereact/resources/themes/lara-light-blue/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
+import Swal from 'sweetalert2';
+// import "primereact/resources/themes/lara-light-blue/theme.css";
+// import "primereact/resources/primereact.min.css";
+// import "primeicons/primeicons.css";
 
 export default function UsersDashBoard() {
   const toast = useRef(null);
-  //צריך להפוך לגלובלי
+  const navigate = useNavigate();
   const [Users, setUsers] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
@@ -53,7 +50,18 @@ export default function UsersDashBoard() {
         const res = await axios.put(
           `http://localhost:8080/manager/putUser/${editingUser.UserId}`,
           UserData
-        );
+        ).catch((err) =>{
+          console.error(err);
+          Swal.fire({
+           icon: "error",
+           title: "Oops...",
+           text: "No access permission!",
+           confirmButtonText: 'OK',
+           confirmButtonColor:'blue',
+         })
+         .then(() => {;
+         navigate("/FormManager");})
+       });
         const updatedUsers = Users.map(User =>
           User.UserId === editingUser.UserId ? res.data : User
         );
@@ -151,7 +159,7 @@ export default function UsersDashBoard() {
       <Card className="w-full  text-white rounded-xl shadow p-4 mb-6" style={{ backgroundColor: "rgb(102 130 173 / 68%)" }}>
         <CardContent className="flex flex-col md:flex-row  items-center gap-4">
 
-          {/* כפתור הוספת ספר חדש */}
+          {/* כפתור הוספת משתמש חדש */}
           <Button onClick={() => setShowForm(true)} className="bg-white  hover:bg-gray-100" style={{ color: "rgb(147 166 196)" }}>
             <Plus className="w-5 h-5 ml-2" />
            הוספת משתמש חדש          </Button>
